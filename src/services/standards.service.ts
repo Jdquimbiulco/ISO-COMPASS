@@ -1,4 +1,4 @@
-import standardsSeedData from '../../prisma/seed-data/iso-29110-standards.json';
+import { standardsSeedData } from '@/data/standards-data';
 
 export interface StandardSummary {
   id: string;
@@ -17,7 +17,7 @@ export class StandardsService {
   /**
    * Obtiene todas las normas registradas en el catálogo oficial de la ISO 29110.
    * Utiliza el catálogo pre-empaquetado para garantizar rendimiento instantáneo (<50ms)
-   * y que el build de Vercel nunca dependa de llamadas de red a la base de datos.
+   * y que el build de Vercel nunca dependa de llamadas de red o archivos externos.
    */
   static async getAllStandards(): Promise<StandardSummary[]> {
     return standardsSeedData.standards.map((s: any, idx: number) => ({
