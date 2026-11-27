@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { BookOpen, ExternalLink, Download, CheckSquare, ArrowLeft, ShieldAlert } from 'lucide-react';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 interface StandardDetailPageProps {
   params: {
     code: string;

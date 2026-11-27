@@ -1,0 +1,40 @@
+name: CI - Integración Continua y Calidad (ISO 29110)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-build:
+    name: Verificación, Pruebas y Compilación
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: "postgresql://postgres.oixvmqqugizqwjwmauep:isoroot2026%21@aws-1-us-west-2.pooler.supabase.com:6543/postgres?pgbouncer=true"
+      DIRECT_URL: "postgresql://postgres.oixvmqqugizqwjwmauep:isoroot2026%21@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
+      AUTH_SECRET: "ci-test-secret-key-development"
+      NODE_ENV: "test"
+
+    steps:
+      - name: 1. Descargar código fuente (Checkout)
+        uses: actions/checkout@v4
+
+      - name: 2. Configurar entorno Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 3. Instalar dependencias
+        run: npm ci || npm install
+
+      - name: 4. Generar Cliente de Prisma
+        run: npx prisma generate
+
+      - name: 5. Ejecutar Pruebas Unitarias Automatizadas (Cálculo ISO 29110)
+        run: npm test
+
+      - name: 6. Compilar proyecto Next.js (Build Verification)
+        run: npm run build

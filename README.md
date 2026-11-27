@@ -140,16 +140,14 @@ ISO-COMPASS/
 
 ---
 
-## 🚀 5. Guía de Instalación y Ejecución
+## 🚀 5. Guía de Instalación y Ejecución para el Equipo
+
+Esta guía es universal para cualquier sistema operativo (**Windows, macOS o Linux**).
 
 ### Prerrequisitos
 * **Node.js:** Versión 18 o superior (v20+ recomendada).
-* **NPM:** Si estás en Arch Linux / Manjaro, instala npm con:
-  ```bash
-  sudo pacman -S npm
-  ```
 
-### Pasos para levantar el proyecto:
+### Pasos para levantar el proyecto localmente:
 
 1. **Clonar el repositorio:**
    ```bash
@@ -162,29 +160,34 @@ ISO-COMPASS/
    npm install
    ```
 
-3. **Configurar variables de entorno (Supabase / PostgreSQL):**
-   Copia el archivo de ejemplo a `.env`:
-   ```bash
-   cp .env.example .env
+3. **Configurar el archivo `.env`:**
+   Crea un archivo llamado `.env` en la raíz del proyecto y pega las cadenas de conexión compartidas por el equipo:
+   ```env
+   DATABASE_URL="postgresql://postgres.oixvmqqugizqwjwmauep:isoroot2026%21@aws-1-us-west-2.pooler.supabase.com:6543/postgres?pgbouncer=true"
+   DIRECT_URL="postgresql://postgres.oixvmqqugizqwjwmauep:isoroot2026%21@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
+   AUTH_SECRET="iso-compass-super-secret-key-development-2026"
+   NODE_ENV="development"
+   NEXT_PUBLIC_APP_URL="http://localhost:3000"
    ```
-   En tu panel de [Supabase](https://supabase.com) (Settings -> Database -> Connection string), copia tus URLs en `.env`:
-   - `DATABASE_URL`: Connection pooler (puerto 6543 con `?pgbouncer=true`).
-   - `DIRECT_URL`: Conexión directa (puerto 5432).
 
-4. **Sincronizar la base de datos en Supabase y cargar las normas (Seeding):**
+4. **Generar el cliente de Prisma:**
+   ```bash
+   npx prisma generate
+   ```
+
+5. **(Solo el responsable inicial de BD) Sincronizar y cargar normas en Supabase:**
+   *(Si la base de datos ya fue poblada por el Integrante 1, los demás integrantes pueden saltar este paso).*
    ```bash
    npx prisma db push
    npm run db:seed
    ```
 
-5. **Ejecutar las pruebas unitarias automatizadas:**
+6. **Ejecutar las pruebas unitarias automatizadas:**
    ```bash
    npm test
-   # O directamente con el runner nativo de Node:
-   node --test tests/compliance-calculator.test.mjs
    ```
 
-6. **Iniciar el servidor de desarrollo:**
+7. **Iniciar el servidor de desarrollo:**
    ```bash
    npm run dev
    ```
@@ -192,7 +195,39 @@ ISO-COMPASS/
 
 ---
 
-## 📊 6. Rúbrica de Evaluación y Metas de Calificación (100%)
+## 🔄 6. Integración Continua (CI/CD) y Despliegue en la Nube
+
+Para garantizar que el equipo trabaje de forma ordenada y que el docente disponga de una URL pública funcional (**Entregable 2 de la guía**):
+
+### Flujo de Trabajo Recomendado:
+1. Cada integrante trabaja en su propia rama local (ej. `feature/m1-biblioteca`, `feature/m4-evaluaciones`).
+2. Prueba sus cambios localmente con `npm test` y `npm run dev`.
+3. Sube sus cambios a GitHub mediante un Pull Request hacia la rama `main`.
+
+### Pipeline de Integración Continua (CI con GitHub Actions):
+* El archivo `.github/workflows/ci.yml` se ejecuta automáticamente en cada `push` o `Pull Request` hacia la rama `main`.
+* **Acciones del pipeline:**
+  1. Instala dependencias en un entorno limpio.
+  2. Genera el cliente de Prisma.
+  3. **Ejecuta los tests unitarios automatizados (`npm test`):** Si alguien rompe la fórmula matemática o las reglas de cálculo de la ISO 29110, el pipeline falla y bloquea el merge.
+  4. **Verifica la compilación (`npm run build`):** Asegura que no existan errores de TypeScript ni de sintaxis en Next.js.
+
+### Despliegue Continuo (CD en Vercel - Recomendado):
+**Vercel** es la plataforma oficial y gratuita creada por los desarrolladores de Next.js. Se conecta directamente a tu repositorio de GitHub:
+
+1. Entra a [vercel.com](https://vercel.com) e inicia sesión con tu cuenta de GitHub.
+2. Haz clic en **Add New...** $\rightarrow$ **Project** e importa tu repositorio `ISO-COMPASS`.
+3. En la sección **Environment Variables**, añade:
+   * `DATABASE_URL`: La URL del pooler de Supabase (puerto 6543).
+   * `DIRECT_URL`: La URL directa de Supabase (puerto 5432).
+   * `AUTH_SECRET`: Tu clave secreta.
+4. Haz clic en **Deploy**.
+5. **Resultado:** En 1 minuto tendrás una URL pública con HTTPS (ej. `https://iso-compass.vercel.app`) lista para entregar al docente.
+6. **Despliegue automático:** Cada vez que el equipo haga `git push` a `main`, Vercel recompilará y actualizará el sitio en vivo sin necesidad de hacer nada manual.
+
+---
+
+## 📊 7. Rúbrica de Evaluación y Metas de Calificación (100%)
 
 | Módulo / Criterio | Peso | Meta para 100% (Excelente) |
 | :--- | :---: | :--- |
