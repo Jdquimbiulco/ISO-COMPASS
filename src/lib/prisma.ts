@@ -6,10 +6,19 @@ const globalForPrisma = globalThis as unknown as {
 
 export function getPrismaClient(): PrismaClient | null {
   if (typeof window !== 'undefined') return null;
-  if (!process.env.DATABASE_URL) return null;
+  const rawUrl = process.env.DATABASE_URL;
+  if (!rawUrl) return null;
+
+  // Limpieza defensiva de comillas por si Vercel las importó con comillas
+  const cleanUrl = rawUrl.trim().replace(/^["']|["']$/g, '');
 
   if (!globalForPrisma.prisma) {
     globalForPrisma.prisma = new PrismaClient({
+      datasources: {
+        db: {
+          url: cleanUrl,
+        },
+      },
       log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
     });
   }

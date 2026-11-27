@@ -6,12 +6,18 @@ import { Button } from '@/components/ui/button';
 import { BookOpen, ExternalLink, Download, CheckSquare, ArrowLeft, ShieldAlert } from 'lucide-react';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
-
 interface StandardDetailPageProps {
   params: {
     code: string;
   };
+}
+
+// Pre-genera las 13 páginas de las normas para carga instantánea (RNF-04)
+export async function generateStaticParams() {
+  const standards = await StandardsService.getAllStandards();
+  return standards.map((std) => ({
+    code: std.code,
+  }));
 }
 
 export default async function StandardDetailPage({ params }: StandardDetailPageProps) {
