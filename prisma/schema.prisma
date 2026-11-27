@@ -1,0 +1,184 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ----------------------------------------------------
+// 1. GESTIÓN DE USUARIOS Y ROLES (RBAC)
+// ----------------------------------------------------
+enum Role {
+  ADMIN       // Administrador: Gestiona normas, apartados, usuarios y configuraciones
+  EVALUATOR   // Evaluador: Crea y califica evaluaciones, adjunta evidencias
+  CONSULTANT  // Consultor: Solo lectura de biblioteca, fichas y reportes
+}
+
+model User {
+  id           String       @id @default(uuid())
+  name         String
+  email        String       @unique
+  passwordHash String
+  role         Role         @default(EVALUATOR)
+  evaluations  Evaluation[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+// ----------------------------------------------------
+// 2. MODELO DE FAMILIAS Y NORMAS (EXTENSIBLE: ISO 29110, ISO 9001, etc.)
+// ----------------------------------------------------
+model Family {
+  id          String     @id @default(uuid())
+  code        String     @unique // ej. "ISO-29110"
+  name        String     // ej. "Familia ISO/IEC 29110 para VSEs"
+  description String
+  standards   Standard[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum AccessType {
+  FREE          // Acceso público / Open Access (ej. ISO Publicly Available Standards)
+  ISO_PAID      // Catálogo oficial de pago ISO (enlace oficial al store)
+  INSTITUTIONAL // Copia autorizada por biblioteca institucional / convenio
+}
+
+enum StandardCategory {
+  OVERVIEW       // Visión general y vocabulario (Partes 1-x)
+  FRAMEWORK      // Marco y taxonomía (Partes 2-x)
+  ASSESSMENT     // Evaluación y certificación (Partes 3-x)
+  SPECIFICATIONS // Especificaciones de perfil (Partes 4-x)
+  GUIDELINES     // Guías de gestión e ingeniería (Partes 5-x)
+}
+
+model Standard {
+  id             String           @id @default(uuid())
+  familyId       String
+  family         Family           @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  code           String           @unique // ej. "29110-5-1-2"
+  title          String           // ej. "Guía de gestión e ingeniería del Perfil Básico"
+  shortTitle     String           // ej. "Perfil Básico"
+  edition        String           // ej. "2011"
+  category       StandardCategory
+  targetAudience String           // Audiencia objetivo
+  purpose        String           // Propósito general
+  introduction   String           // Paráfrasis propia de la norma
+  officialUrl    String           // Enlace oficial verificado
+  accessType     AccessType       @default(ISO_PAID)
+  sections       Section[]
+  evaluations    Evaluation[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+model Section {
+  id         String          @id @default(uuid())
+  standardId String
+  standard   Standard        @relation(fields: [standardId], references: [id], onDelete: Cascade)
+  code       String          // ej. "GP.1", "IS.2"
+  name       String          // ej. "Planificación del Proyecto", "Análisis de Requisitos"
+  orderIndex Int             @default(0)
+  items      ChecklistItem[]
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  @@unique([standardId, code])
+}
+
+model ChecklistItem {
+  id                  String               @id @default(uuid())
+  sectionId           String
+  section             Section              @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  code                String               // ej. "GP.1.1", "IS.2.1"
+  statement           String               // Redacción de la práctica o tarea a verificar
+  expectedDeliverable String               // Producto de trabajo esperado
+  targetRole          String               // Rol responsable (ej. "GP", "LT", "CL", "AN")
+  orderIndex          Int                  @default(0)
+  responses           EvaluationResponse[]
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  @@unique([sectionId, code])
+}
+
+// ----------------------------------------------------
+// 3. ORGANIZACIONES Y EVALUACIONES DE CUMPLIMIENTO
+// ----------------------------------------------------
+model Organization {
+  id            String       @id @default(uuid())
+  name          String       // Nombre de la VSE o empresa evaluada
+  teamSize      Int          // Tamaño del equipo (<= 25 según ISO 29110)
+  targetProfile String       // ej. "Entrada", "Básico", "Intermedio", "Avanzado"
+  description   String?
+  evaluations   Evaluation[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+enum ComplianceStatus {
+  NOT_STARTED       // 0% (sin evaluar)
+  INITIAL           // 1% a 39%
+  IN_PROGRESS       // 40% a 79%
+  NEARLY_CONFORMANT // 80% a 99%
+  CONFORMANT        // 100%
+}
+
+model Evaluation {
+  id                   String               @id @default(uuid())
+  organizationId       String
+  organization         Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  standardId           String
+  standard             Standard             @relation(fields: [standardId], references: [id], onDelete: Cascade)
+  evaluatorId          String
+  evaluator            User                 @relation(fields: [evaluatorId], references: [id])
+  evaluationDate       DateTime             @default(now())
+  compliancePercentage Float                @default(0.0) // [ (C + 0.5*P) / (T - NA) ] * 100
+  status               ComplianceStatus     @default(NOT_STARTED)
+  notes                String?
+  responses            EvaluationResponse[]
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+}
+
+enum ResponseValue {
+  C   // Cumple totalmente (valor = 1.0)
+  P   // Cumple parcialmente (valor = 0.5)
+  NC  // No cumple (valor = 0.0)
+  NA  // No aplica (se descuenta del total T)
+}
+
+model EvaluationResponse {
+  id             String        @id @default(uuid())
+  evaluationId   String
+  evaluation     Evaluation    @relation(fields: [evaluationId], references: [id], onDelete: Cascade)
+  itemId         String
+  item           ChecklistItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  value          ResponseValue
+  observations   String?       // Comentarios del evaluador o justificación de brecha
+  assignedRole   String?       // Responsable de la práctica dentro de la VSE
+  evaluationDate DateTime      @default(now())
+  evidences      Evidence[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@unique([evaluationId, itemId])
+}
+
+enum EvidenceType {
+  FILE // Documento subido (PDF, docx, imagen)
+  LINK // Enlace externo (repositorio Git, Jira, Confluence, etc.)
+}
+
+model Evidence {
+  id          String             @id @default(uuid())
+  responseId  String
+  response    EvaluationResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  type        EvidenceType       @default(LINK)
+  urlOrPath   String             // Ruta del archivo local o URL remota
+  title       String             // Título o descripción de la evidencia
+  createdAt   DateTime           @default(now())
+}

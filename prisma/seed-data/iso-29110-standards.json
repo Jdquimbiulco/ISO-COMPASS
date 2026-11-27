@@ -1,0 +1,727 @@
+{
+  "family": {
+    "code": "ISO-29110",
+    "name": "Familia ISO/IEC 29110: Ingeniería de Software y Sistemas para VSEs",
+    "description": "Conjunto de normas, especificaciones y guías para Entidades Muy Pequeñas (VSEs - hasta 25 personas), con perfiles de ciclo de vida progresivos (Entrada, Básico, Intermedio, Avanzado)."
+  },
+  "standards": [
+    {
+      "code": "29110-1-1",
+      "title": "Ingeniería de sistemas y software — Perfiles de ciclo de vida para entidades muy pequeñas (VSE) — Parte 1-1: Visión general",
+      "shortTitle": "Visión general (2024)",
+      "edition": "2024",
+      "category": "OVERVIEW",
+      "targetAudience": "Todas las partes interesadas (empresarios, clientes, ingenieros, evaluadores)",
+      "purpose": "Establecer la taxonomía general de perfiles, los conceptos fundacionales y las características de las VSEs.",
+      "introduction": "La Parte 1-1 (revisión 2024) reemplaza al reporte técnico anterior de 2016 y define la arquitectura modular de la serie ISO/IEC 29110. Explica por qué las empresas pequeñas requieren un enfoque estructurado pero ligero para mejorar su productividad y calidad sin burocracia excesiva.",
+      "officialUrl": "https://www.iso.org/standard/85337.html",
+      "accessType": "FREE",
+      "sections": [
+        {
+          "code": "VG.1",
+          "name": "Identificación de la Entidad y Perfil",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "VG.1.1",
+              "statement": "La organización ha verificado que cumple con la definición de VSE (equipo de trabajo de 1 a 25 personas).",
+              "expectedDeliverable": "Ficha de caracterización organizacional",
+              "targetRole": "GP"
+            },
+            {
+              "code": "VG.1.2",
+              "statement": "Se ha identificado el perfil de ciclo de vida adecuado al contexto organizacional (Entrada, Básico, Intermedio o Avanzado).",
+              "expectedDeliverable": "Documento de selección de perfil",
+              "targetRole": "GP"
+            },
+            {
+              "code": "VG.1.3",
+              "statement": "El equipo comprende los grupos de documentos de la serie (Visión, Perfiles, Evaluación, Guías).",
+              "expectedDeliverable": "Registro de capacitación o inducción",
+              "targetRole": "ET"
+            },
+            {
+              "code": "VG.1.4",
+              "statement": "Se ha definido la estrategia de adopción gradual de procesos en la organización.",
+              "expectedDeliverable": "Plan de adopción de procesos",
+              "targetRole": "GP"
+            },
+            {
+              "code": "VG.1.5",
+              "statement": "Se establecen los canales de comunicación formal entre el cliente y el equipo técnico.",
+              "expectedDeliverable": "Matriz de comunicaciones",
+              "targetRole": "GP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-1-2",
+      "title": "Ingeniería de sistemas y software — Perfiles de ciclo de vida para entidades muy pequeñas (VSE) — Parte 1-2: Vocabulario",
+      "shortTitle": "Vocabulario (2024)",
+      "edition": "2024",
+      "category": "OVERVIEW",
+      "targetAudience": "VSEs, clientes, evaluadores y redactores de normas",
+      "purpose": "Estandarizar la terminología técnica empleada a lo largo de toda la familia de normas.",
+      "introduction": "Esta parte unifica la semántica y definiciones operativas de términos como Producto de Trabajo, Tarea, Rol, Verificación, Validación y Perfil, asegurando un entendimiento común entre clientes y desarrolladores.",
+      "officialUrl": "https://www.iso.org/standard/85338.html",
+      "accessType": "ISO_PAID",
+      "sections": [
+        {
+          "code": "VOC.1",
+          "name": "Alineación de Terminología y Conceptos",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "VOC.1.1",
+              "statement": "El equipo utiliza un glosario de términos común y consistente con ISO/IEC 29110.",
+              "expectedDeliverable": "Glosario del proyecto",
+              "targetRole": "AN"
+            },
+            {
+              "code": "VOC.1.2",
+              "statement": "Se diferencian formalmente los conceptos de Verificación y Validación en los entregables.",
+              "expectedDeliverable": "Procedimiento de V&V",
+              "targetRole": "LT"
+            },
+            {
+              "code": "VOC.1.3",
+              "statement": "Los roles del proyecto están mapeados con la nomenclatura estándar (GP, LT, AN, DIS, PR).",
+              "expectedDeliverable": "Estructura organizacional del proyecto",
+              "targetRole": "GP"
+            },
+            {
+              "code": "VOC.1.4",
+              "statement": "Se establecen definiciones claras para los estados del ciclo de vida del software.",
+              "expectedDeliverable": "Guía de ciclo de vida",
+              "targetRole": "LT"
+            },
+            {
+              "code": "VOC.1.5",
+              "statement": "Los criterios de aceptación de entregables están acordados con el cliente.",
+              "expectedDeliverable": "Criterios de aceptación formal",
+              "targetRole": "CL"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-2-1",
+      "title": "Marco y taxonomía de perfiles",
+      "shortTitle": "Marco y Taxonomía (2015)",
+      "edition": "2015",
+      "category": "FRAMEWORK",
+      "targetAudience": "Productores de normas, organismos de normalización y VSEs avanzadas",
+      "purpose": "Definir las reglas y estructura para crear y especializar perfiles de ciclo de vida.",
+      "introduction": "Establece el marco conceptual que sustenta la creación de perfiles genéricos y específicos, indicando cómo derivar guías de ingeniería a partir de normas como ISO/IEC/IEEE 12207 e ISO/IEC/IEEE 15288.",
+      "officialUrl": "https://www.iso.org/standard/62731.html",
+      "accessType": "ISO_PAID",
+      "sections": [
+        {
+          "code": "FR.1",
+          "name": "Estructuración de Perfiles",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "FR.1.1",
+              "statement": "Se verifica la compatibilidad del proceso organizacional con el marco de perfiles ISO 29110.",
+              "expectedDeliverable": "Matriz de alineación de procesos",
+              "targetRole": "GP"
+            },
+            {
+              "code": "FR.1.2",
+              "statement": "Se determinan los subconjuntos de procesos aplicables según la tipología del proyecto.",
+              "expectedDeliverable": "Alcance del perfil adaptado",
+              "targetRole": "LT"
+            },
+            {
+              "code": "FR.1.3",
+              "statement": "Se mantiene la trazabilidad hacia normas base (ISO 12207 / 15288).",
+              "expectedDeliverable": "Mapa de trazabilidad normativa",
+              "targetRole": "GP"
+            },
+            {
+              "code": "FR.1.4",
+              "statement": "Se establecen revisiones periódicas del perfil frente a cambios en la organización.",
+              "expectedDeliverable": "Informe de revisión de procesos",
+              "targetRole": "GP"
+            },
+            {
+              "code": "FR.1.5",
+              "statement": "Se asegura la coherencia entre los objetivos del negocio y los procesos seleccionados.",
+              "expectedDeliverable": "Alineación estratégica de TI",
+              "targetRole": "GP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-3-1",
+      "title": "Guía de evaluación de procesos para VSEs",
+      "shortTitle": "Guía de Evaluación (2020)",
+      "edition": "2020",
+      "category": "ASSESSMENT",
+      "targetAudience": "Evaluadores de procesos, consultores y VSEs",
+      "purpose": "Orientar cómo realizar evaluaciones objetivas de procesos basadas en la serie ISO/IEC 330xx.",
+      "introduction": "Describe el método ligero de evaluación de procesos adaptado a la realidad de las VSEs, evitando la sobrecarga documental y concentrándose en evidencias prácticas de ejecución.",
+      "officialUrl": "https://www.iso.org/standard/74211.html",
+      "accessType": "FREE",
+      "sections": [
+        {
+          "code": "EV.1",
+          "name": "Preparación y Ejecución de la Evaluación",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "EV.1.1",
+              "statement": "Se ha definido el plan de evaluación con objetivos, alcance y calendario consensuados.",
+              "expectedDeliverable": "Plan de evaluación",
+              "targetRole": "GP"
+            },
+            {
+              "code": "EV.1.2",
+              "statement": "Los evaluadores cuentan con competencia probada en ISO/IEC 29110 y evaluación de procesos.",
+              "expectedDeliverable": "Registro de calificaciones del evaluador",
+              "targetRole": "GP"
+            },
+            {
+              "code": "EV.1.3",
+              "statement": "Se recopilan evidencias objetivas (productos de trabajo) para cada práctica evaluada.",
+              "expectedDeliverable": "Repositorio de evidencias de evaluación",
+              "targetRole": "ET"
+            },
+            {
+              "code": "EV.1.4",
+              "statement": "Se genera un informe de brechas y oportunidades de mejora tras la evaluación.",
+              "expectedDeliverable": "Informe de hallazgos y brechas",
+              "targetRole": "GP"
+            },
+            {
+              "code": "EV.1.5",
+              "statement": "La organización establece un plan de acción correctiva para las no conformidades.",
+              "expectedDeliverable": "Plan de acciones correctivas",
+              "targetRole": "GP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-3-2",
+      "title": "Esquema de certificación de conformidad para VSEs",
+      "shortTitle": "Esquema de Certificación (2018 + Amd 1:2025)",
+      "edition": "2018 + Amd 1:2025",
+      "category": "ASSESSMENT",
+      "targetAudience": "Organismos certificadores acreditados, evaluadores líderes y VSEs",
+      "purpose": "Establecer las reglas formales de auditoría y otorgamiento de certificados de conformidad.",
+      "introduction": "Regula el proceso formal de certificación para VSEs. La reciente enmienda de 2025 eliminó el requisito estricto de recertificación cada 3 años, facilitando un esquema de auditorías de vigilancia continua más accesible.",
+      "officialUrl": "https://www.iso.org/standard/62732.html",
+      "accessType": "ISO_PAID",
+      "sections": [
+        {
+          "code": "CERT.1",
+          "name": "Requisitos para Certificación",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "CERT.1.1",
+              "statement": "La organización cuenta con un expediente de evidencias ordenado y auditable.",
+              "expectedDeliverable": "Expediente de auditoría",
+              "targetRole": "GP"
+            },
+            {
+              "code": "CERT.1.2",
+              "statement": "Se ha seleccionado un organismo de certificación formalmente acreditado.",
+              "expectedDeliverable": "Contrato de certificación",
+              "targetRole": "GP"
+            },
+            {
+              "code": "CERT.1.3",
+              "statement": "Se ejecutó una auditoría interna previa para verificar la madurez antes de la visita externa.",
+              "expectedDeliverable": "Informe de auditoría interna",
+              "targetRole": "GP"
+            },
+            {
+              "code": "CERT.1.4",
+              "statement": "Se conocen y aplican las disposiciones de la enmienda 2025 sobre auditorías continuas.",
+              "expectedDeliverable": "Procedimiento de mantenimiento de certificación",
+              "targetRole": "GP"
+            },
+            {
+              "code": "CERT.1.5",
+              "statement": "La alta dirección manifiesta su compromiso formal con el mantenimiento del sistema de calidad.",
+              "expectedDeliverable": "Compromiso de dirección firmado",
+              "targetRole": "GP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-4-1",
+      "title": "Especificaciones de perfiles de software",
+      "shortTitle": "Especificaciones de Perfil (2018)",
+      "edition": "2018",
+      "category": "SPECIFICATIONS",
+      "targetAudience": "Líderes de calidad, analistas y desarrolladores",
+      "purpose": "Detallar los requisitos normativos ('qué hacer') de los perfiles genéricos de software.",
+      "introduction": "Define el conjunto normativo mandatorio que una organización debe implementar para declarar conformidad con cada uno de los cuatro perfiles de software.",
+      "officialUrl": "https://www.iso.org/standard/62733.html",
+      "accessType": "ISO_PAID",
+      "sections": [
+        {
+          "code": "SPEC.1",
+          "name": "Conformidad con Perfiles de Software",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "SPEC.1.1",
+              "statement": "Se verifica el cumplimiento de las entradas y salidas obligatorias de cada proceso.",
+              "expectedDeliverable": "Catálogo de entradas y salidas",
+              "targetRole": "LT"
+            },
+            {
+              "code": "SPEC.1.2",
+              "statement": "Se implementa la gestión de la configuración de todos los elementos de software.",
+              "expectedDeliverable": "Plan de gestión de configuración",
+              "targetRole": "LT"
+            },
+            {
+              "code": "SPEC.1.3",
+              "statement": "Se documentan las tareas críticas de análisis, diseño, construcción y pruebas.",
+              "expectedDeliverable": "Matriz de cobertura de especificaciones",
+              "targetRole": "PR"
+            },
+            {
+              "code": "SPEC.1.4",
+              "statement": "Se asegura la verificación de consistencia entre especificaciones y código entregado.",
+              "expectedDeliverable": "Acta de revisión por pares",
+              "targetRole": "LT"
+            },
+            {
+              "code": "SPEC.1.5",
+              "statement": "Se establecen líneas base formales para el software antes de su puesta en producción.",
+              "expectedDeliverable": "Registro de línea base",
+              "targetRole": "LT"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-5-1-1",
+      "title": "Guía de gestión e ingeniería del Perfil de Entrada",
+      "shortTitle": "Perfil de Entrada (2012)",
+      "edition": "2012",
+      "category": "GUIDELINES",
+      "targetAudience": "Startups, emprendedores y microempresas (1 a 5 personas)",
+      "purpose": "Proveer una guía simplificada para empresas que inician en el desarrollo formal de software.",
+      "introduction": "El Perfil de Entrada es el primer escalón de la norma. Se enfoca en proyectos pequeños con requerimientos directos, estableciendo prácticas mínimas de planificación y control de entregables.",
+      "officialUrl": "https://www.iso.org/standard/59238.html",
+      "accessType": "FREE",
+      "sections": [
+        {
+          "code": "ENT.1",
+          "name": "Prácticas del Perfil de Entrada",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "ENT.1.1",
+              "statement": "Existe un acuerdo básico por escrito con el cliente sobre el producto a construir.",
+              "expectedDeliverable": "Acuerdo de trabajo inicial",
+              "targetRole": "GP"
+            },
+            {
+              "code": "ENT.1.2",
+              "statement": "Se listan los requisitos principales acordados con el cliente de forma verificable.",
+              "expectedDeliverable": "Lista de requisitos funcionales",
+              "targetRole": "AN"
+            },
+            {
+              "code": "ENT.1.3",
+              "statement": "Se realizan respaldos periódicos del código fuente.",
+              "expectedDeliverable": "Registro de respaldos",
+              "targetRole": "PR"
+            },
+            {
+              "code": "ENT.1.4",
+              "statement": "Se prueban los módulos básicos antes de la entrega al cliente.",
+              "expectedDeliverable": "Evidencia de pruebas funcionales",
+              "targetRole": "PR"
+            },
+            {
+              "code": "ENT.1.5",
+              "statement": "El cliente revisa y aprueba la entrega final del software.",
+              "expectedDeliverable": "Constancia de entrega",
+              "targetRole": "CL"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-5-1-2",
+      "title": "Guía de gestión e ingeniería del Perfil Básico",
+      "shortTitle": "Perfil Básico (2011)",
+      "edition": "2011",
+      "category": "GUIDELINES",
+      "targetAudience": "VSEs que ejecutan un solo proyecto de software a la vez con un equipo pequeño",
+      "purpose": "Definir en detalle los dos procesos medulares: Gestión del Proyecto (GP) e Implementación de Software (IS).",
+      "introduction": "El Perfil Básico es el corazón de la serie ISO 29110. Provee plantillas y guías prácticas paso a paso para planificar, ejecutar, monitorear y cerrar proyectos de software garantizando calidad y satisfacción del cliente.",
+      "officialUrl": "https://www.iso.org/standard/59239.html",
+      "accessType": "FREE",
+      "sections": [
+        {
+          "code": "GP",
+          "name": "Proceso de Gestión del Proyecto (GP)",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "GP.1",
+              "statement": "Se revisó el Enunciado del trabajo y se definieron con el cliente las instrucciones de entrega.",
+              "expectedDeliverable": "Enunciado del trabajo [revisado]; Plan del proyecto",
+              "targetRole": "GP, LT, CL"
+            },
+            {
+              "code": "GP.2",
+              "statement": "Existe un Plan del proyecto con tareas, estimaciones, calendario, recursos, riesgos y estrategia de control de versiones.",
+              "expectedDeliverable": "Plan del proyecto aprobado",
+              "targetRole": "GP"
+            },
+            {
+              "code": "GP.3",
+              "statement": "Se registran reportes de avance y actas de reunión periódicas con el cliente y el equipo.",
+              "expectedDeliverable": "Reportes de avance; actas de reunión",
+              "targetRole": "GP, ET"
+            },
+            {
+              "code": "GP.4",
+              "statement": "El repositorio del proyecto cuenta con respaldo periódico y política de ramas definida.",
+              "expectedDeliverable": "Respaldo del repositorio y bitácora de commits",
+              "targetRole": "GP, LT"
+            },
+            {
+              "code": "GP.5",
+              "statement": "Se compara el avance real con el plan y se definen e implementan acciones correctivas ante desviaciones.",
+              "expectedDeliverable": "Registro de acciones correctivas",
+              "targetRole": "GP"
+            },
+            {
+              "code": "GP.6",
+              "statement": "Las solicitudes de cambio se evalúan y se registra formalmente su estado (propuesta, evaluada, aceptada, rechazada).",
+              "expectedDeliverable": "Registro de solicitudes de cambio",
+              "targetRole": "GP, CL"
+            },
+            {
+              "code": "GP.7",
+              "statement": "El cliente firma el acta de aceptación formal al cierre y finalización del proyecto.",
+              "expectedDeliverable": "Acta de aceptación del proyecto",
+              "targetRole": "GP, CL"
+            }
+          ]
+        },
+        {
+          "code": "IS",
+          "name": "Proceso de Implementación de Software (IS)",
+          "orderIndex": 2,
+          "items": [
+            {
+              "code": "IS.1",
+              "statement": "El equipo de trabajo revisó el Plan del proyecto al dar inicio formal a la implementación.",
+              "expectedDeliverable": "Acta de reunión de inicio de implementación",
+              "targetRole": "LT, ET"
+            },
+            {
+              "code": "IS.2",
+              "statement": "La Especificación de requisitos de software está verificada por el equipo y validada formalmente por el cliente.",
+              "expectedDeliverable": "Especificación de requisitos [validada]; Resultado de validación",
+              "targetRole": "AN, CL"
+            },
+            {
+              "code": "IS.3",
+              "statement": "Existe un diseño de arquitectura y diseño detallado que es trazable bidireccionalmente hacia los requisitos.",
+              "expectedDeliverable": "Documento de diseño de software; Matriz de trazabilidad",
+              "targetRole": "DIS, LT"
+            },
+            {
+              "code": "IS.4",
+              "statement": "Los componentes de software se construyeron y cuentan con pruebas unitarias automatizadas documentadas.",
+              "expectedDeliverable": "Componentes de software; Resultados de pruebas unitarias",
+              "targetRole": "PR"
+            },
+            {
+              "code": "IS.5",
+              "statement": "Se ejecutaron pruebas de integración y del sistema, y se documentaron detalladamente sus resultados.",
+              "expectedDeliverable": "Casos y procedimientos de prueba; Informe formal de pruebas",
+              "targetRole": "PR, ET"
+            },
+            {
+              "code": "IS.6",
+              "statement": "Se entregó la configuración de software completa acompañada de la guía de usuario y el manual técnico de mantenimiento.",
+              "expectedDeliverable": "Configuración de software entregada; Guía de usuario; Manual técnico",
+              "targetRole": "LT, GP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-5-1-3",
+      "title": "Guía de gestión e ingeniería del Perfil Intermedio",
+      "shortTitle": "Perfil Intermedio (2017)",
+      "edition": "2017",
+      "category": "GUIDELINES",
+      "targetAudience": "VSEs en crecimiento que gestionan simultáneamente múltiples proyectos de software",
+      "purpose": "Añadir capacidades organizacionales para balancear recursos y gestionar riesgos en múltiples proyectos.",
+      "introduction": "El Perfil Intermedio extiende el Perfil Básico introduciendo gestión de cartera de proyectos, aseguramiento de la calidad independiente y mediciones cuantitativas para la toma de decisiones.",
+      "officialUrl": "https://www.iso.org/standard/65922.html",
+      "accessType": "FREE",
+      "sections": [
+        {
+          "code": "INT.1",
+          "name": "Gestión Multiproyecto y Calidad",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "INT.1.1",
+              "statement": "Se gestiona la asignación y balance de recursos humanos entre múltiples proyectos concurrentes.",
+              "expectedDeliverable": "Plan de capacidad de recursos",
+              "targetRole": "GP"
+            },
+            {
+              "code": "INT.1.2",
+              "statement": "Se aplican auditorías de aseguramiento de la calidad de procesos independientes del equipo de desarrollo.",
+              "expectedDeliverable": "Informe de aseguramiento de calidad (QA)",
+              "targetRole": "GP"
+            },
+            {
+              "code": "INT.1.3",
+              "statement": "Se recopilan y analizan métricas de productividad y defectos entre proyectos.",
+              "expectedDeliverable": "Tablero de métricas organizacionales",
+              "targetRole": "LT"
+            },
+            {
+              "code": "INT.1.4",
+              "statement": "Existe un repositorio institucional de lecciones aprendidas y activos de proceso.",
+              "expectedDeliverable": "Repositorio de lecciones aprendidas",
+              "targetRole": "GP"
+            },
+            {
+              "code": "INT.1.5",
+              "statement": "Se gestionan los acuerdos y contratos con proveedores externos o subcontratistas.",
+              "expectedDeliverable": "Registro de gestión de proveedores",
+              "targetRole": "GP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-5-1-4",
+      "title": "Guía de gestión e ingeniería del Perfil Avanzado",
+      "shortTitle": "Perfil Avanzado (2018)",
+      "edition": "2018",
+      "category": "GUIDELINES",
+      "targetAudience": "VSEs consolidadas que buscan sostenibilidad, optimización continua e innovación",
+      "purpose": "Incorporar prácticas de mejora continua de procesos, innovación y gestión del conocimiento del negocio.",
+      "introduction": "El perfil superior de la serie para VSEs. Orienta a la micro y pequeña empresa hacia la excelencia operativa y la competitividad internacional a largo plazo.",
+      "officialUrl": "https://www.iso.org/standard/65923.html",
+      "accessType": "FREE",
+      "sections": [
+        {
+          "code": "ADV.1",
+          "name": "Optimización y Mejora Continua",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "ADV.1.1",
+              "statement": "Se ejecutan ciclos regulares de mejora continua de procesos basados en datos cuantitativos.",
+              "expectedDeliverable": "Plan de mejora continua de procesos",
+              "targetRole": "GP"
+            },
+            {
+              "code": "ADV.1.2",
+              "statement": "Se gestionan iniciativas de innovación y actualización tecnológica periódica.",
+              "expectedDeliverable": "Hoja de ruta tecnológica (Roadmap)",
+              "targetRole": "LT"
+            },
+            {
+              "code": "ADV.1.3",
+              "statement": "Se implementa un programa formal de desarrollo y retención del talento humano.",
+              "expectedDeliverable": "Plan de desarrollo de talento",
+              "targetRole": "GP"
+            },
+            {
+              "code": "ADV.1.4",
+              "statement": "Se monitorea la satisfacción del cliente de forma sistemática y post-entrega.",
+              "expectedDeliverable": "Encuestas de satisfacción de clientes",
+              "targetRole": "CL"
+            },
+            {
+              "code": "ADV.1.5",
+              "statement": "Se asegura la continuidad del negocio y la resiliencia operativa ante contingencias.",
+              "expectedDeliverable": "Plan de continuidad del negocio",
+              "targetRole": "GP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-5-3",
+      "title": "Guía de prestación y entrega de servicios de TI para VSEs",
+      "shortTitle": "Servicios de TI (2018)",
+      "edition": "2018",
+      "category": "GUIDELINES",
+      "targetAudience": "VSEs dedicadas al soporte, infraestructura y operación de servicios tecnológicos",
+      "purpose": "Adaptar las mejores prácticas de gestión de servicios (estilo ISO/IEC 20000) al contexto de pequeñas empresas.",
+      "introduction": "Ofrece directrices para VSEs cuyo giro de negocio no es solo desarrollar software, sino mantener, hospedar y operar servicios informáticos con acuerdos de nivel de servicio (SLA).",
+      "officialUrl": "https://www.iso.org/standard/65924.html",
+      "accessType": "FREE",
+      "sections": [
+        {
+          "code": "SER.1",
+          "name": "Gestión de Servicios y Soporte",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "SER.1.1",
+              "statement": "Se definen Acuerdos de Nivel de Servicio (SLA) claros con los clientes para los servicios operados.",
+              "expectedDeliverable": "Acuerdo de nivel de servicio (SLA)",
+              "targetRole": "GP"
+            },
+            {
+              "code": "SER.1.2",
+              "statement": "Existe un catálogo de servicios actualizado accesible a los usuarios.",
+              "expectedDeliverable": "Catálogo de servicios de TI",
+              "targetRole": "LT"
+            },
+            {
+              "code": "SER.1.3",
+              "statement": "Se gestionan incidencias y solicitudes de servicio mediante un registro trazable.",
+              "expectedDeliverable": "Bitácora de incidencias y soporte",
+              "targetRole": "ET"
+            },
+            {
+              "code": "SER.1.4",
+              "statement": "Se monitorea la disponibilidad y rendimiento de la infraestructura de servicio.",
+              "expectedDeliverable": "Reportes de disponibilidad",
+              "targetRole": "LT"
+            },
+            {
+              "code": "SER.1.5",
+              "statement": "Se programan ventanas de mantenimiento preventivo comunicadas oportunamente.",
+              "expectedDeliverable": "Calendario de mantenimiento",
+              "targetRole": "GP"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-5-4",
+      "title": "Guía de desarrollo ágil de software para VSEs",
+      "shortTitle": "Desarrollo Ágil (2025)",
+      "edition": "2025",
+      "category": "GUIDELINES",
+      "targetAudience": "VSEs que adoptan marcos ágiles (Scrum, Kanban, XP) manteniendo la disciplina de calidad",
+      "purpose": "Armonizar eventos y artefactos ágiles con los requisitos del Perfil Básico de la norma.",
+      "introduction": "Publicada en 2025, esta guía representa la modernización clave de la serie ISO 29110. Explica cómo implementar sprints, retrospectivas e historias de usuario cumpliendo al mismo tiempo con la documentación rigurosa que exige ISO.",
+      "officialUrl": "https://www.iso.org/standard/82668.html",
+      "accessType": "ISO_PAID",
+      "sections": [
+        {
+          "code": "AGL.1",
+          "name": "Armonización Ágil e ISO 29110",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "AGL.1.1",
+              "statement": "El Product Backlog se gestiona con historias de usuario priorizadas que representan los requisitos validados.",
+              "expectedDeliverable": "Product Backlog priorizado",
+              "targetRole": "AN"
+            },
+            {
+              "code": "AGL.1.2",
+              "statement": "Se realizan ceremonias de planificación de sprint donde se definen objetivos e ítems comprometidos.",
+              "expectedDeliverable": "Sprint Backlog y definición de hecho (DoD)",
+              "targetRole": "ET"
+            },
+            {
+              "code": "AGL.1.3",
+              "statement": "Se ejecutan revisiones de sprint (demos) con el cliente para validar incrementos de software.",
+              "expectedDeliverable": "Acta de revisión de sprint con feedback del cliente",
+              "targetRole": "CL"
+            },
+            {
+              "code": "AGL.1.4",
+              "statement": "El equipo lleva a cabo reuniones de retrospectiva e implementa mejoras en cada iteración.",
+              "expectedDeliverable": "Plan de mejora de retrospectiva",
+              "targetRole": "ET"
+            },
+            {
+              "code": "AGL.1.5",
+              "statement": "Se mantiene la integración continua y pruebas automatizadas en cada incremento de software.",
+              "expectedDeliverable": "Pipeline de CI/CD con pruebas ejecutadas",
+              "targetRole": "PR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "29110-5-6-1",
+      "title": "Guía de ingeniería de sistemas — Perfil de Entrada y Perfil Básico",
+      "shortTitle": "Ingeniería de Sistemas (2015/2014)",
+      "edition": "2015/2014",
+      "category": "GUIDELINES",
+      "targetAudience": "VSEs que desarrollan productos ciberfísicos (hardware + software embebido o IoT)",
+      "purpose": "Orientar la ingeniería de sistemas multidisciplinarios en equipos pequeños.",
+      "introduction": "Aborda los desafíos de proyectos integrados donde el software interactúa estrechamente con componentes mecánicos, eléctricos o electrónicos, adaptando las fases de integración y verificación conjunta.",
+      "officialUrl": "https://www.iso.org/standard/62734.html",
+      "accessType": "FREE",
+      "sections": [
+        {
+          "code": "SYS.1",
+          "name": "Integración Hardware/Software",
+          "orderIndex": 1,
+          "items": [
+            {
+              "code": "SYS.1.1",
+              "statement": "Se especifican con claridad las interfaces físicas y lógicas entre hardware y software.",
+              "expectedDeliverable": "Documento de control de interfaces (ICD)",
+              "targetRole": "LT"
+            },
+            {
+              "code": "SYS.1.2",
+              "statement": "Se gestionan los requisitos de seguridad funcional y ambientales del sistema integrado.",
+              "expectedDeliverable": "Análisis de riesgos y seguridad funcional",
+              "targetRole": "AN"
+            },
+            {
+              "code": "SYS.1.3",
+              "statement": "Se planifican y ejecutan pruebas en bancos de prueba o prototipos físicos.",
+              "expectedDeliverable": "Protocolo de pruebas de integración física",
+              "targetRole": "PR"
+            },
+            {
+              "code": "SYS.1.4",
+              "statement": "Se verifica el aprovisionamiento y compatibilidad de componentes de hardware.",
+              "expectedDeliverable": "Lista de materiales (BOM) verificada",
+              "targetRole": "GP"
+            },
+            {
+              "code": "SYS.1.5",
+              "statement": "Se documentan las especificaciones técnicas para ensamblaje y mantenimiento del sistema.",
+              "expectedDeliverable": "Manual de ensamble y operación técnica",
+              "targetRole": "LT"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
