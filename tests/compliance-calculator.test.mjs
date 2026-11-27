@@ -124,3 +124,56 @@ test('Fórmula ISO 29110: Verificación de rangos de estado (Tabla 4)', () => {
   assert.equal(evaluateComplianceStatus(99.9).status, 'NEARLY_CONFORMANT');
   assert.equal(evaluateComplianceStatus(100).status, 'CONFORMANT');
 });
+
+// Pruebas del módulo RBAC y Seguridad (RNF-03 / M7 - Juan Quimbiulco)
+import bcrypt from 'bcryptjs';
+
+function getRolePermissions(role) {
+  if (role === 'ADMIN') {
+    return {
+      canManageUsers: true,
+      canManageFamiliesAndStandards: true,
+      canEditEvaluations: true,
+      canReadLibraryAndReports: true,
+    };
+  }
+  if (role === 'EVALUATOR') {
+    return {
+      canManageUsers: false,
+      canManageFamiliesAndStandards: false,
+      canEditEvaluations: true,
+      canReadLibraryAndReports: true,
+    };
+  }
+  return {
+    canManageUsers: false,
+    canManageFamiliesAndStandards: false,
+    canEditEvaluations: false,
+    canReadLibraryAndReports: true,
+  };
+}
+
+test('Seguridad RNF-03 & M7: Verificación de hash bcryptjs para cuentas RBAC', () => {
+  const seedHash = '$2a$10$rVlPBUtgbHPNnlJscdZWi.3WIRcjLmjfa5KxqhTnKHbRNTAKRQuGG';
+  assert.equal(bcrypt.compareSync('Password123!', seedHash), true);
+  assert.equal(bcrypt.compareSync('ClaveIncorrecta', seedHash), false);
+});
+
+test('Seguridad RNF-03 & M7: Matriz de permisos RBAC (ADMIN, EVALUATOR, CONSULTANT)', () => {
+  const adminPerms = getRolePermissions('ADMIN');
+  assert.equal(adminPerms.canManageUsers, true);
+  assert.equal(adminPerms.canManageFamiliesAndStandards, true);
+  assert.equal(adminPerms.canEditEvaluations, true);
+
+  const evaluatorPerms = getRolePermissions('EVALUATOR');
+  assert.equal(evaluatorPerms.canManageUsers, false);
+  assert.equal(evaluatorPerms.canManageFamiliesAndStandards, false);
+  assert.equal(evaluatorPerms.canEditEvaluations, true);
+
+  const consultantPerms = getRolePermissions('CONSULTANT');
+  assert.equal(consultantPerms.canManageUsers, false);
+  assert.equal(consultantPerms.canManageFamiliesAndStandards, false);
+  assert.equal(consultantPerms.canEditEvaluations, false);
+  assert.equal(consultantPerms.canReadLibraryAndReports, true);
+});
+

@@ -2,6 +2,7 @@ import { standardsSeedData } from '@/data/standards-data';
 
 export interface StandardSummary {
   id: string;
+  familyCode?: string;
   code: string;
   title: string;
   shortTitle: string;
@@ -16,12 +17,13 @@ export interface StandardSummary {
 export class StandardsService {
   /**
    * Obtiene todas las normas registradas en el catálogo oficial de la ISO 29110.
-   * Utiliza el catálogo pre-empaquetado para garantizar rendimiento instantáneo (<50ms)
-   * y que el build de Vercel nunca dependa de llamadas de red o archivos externos.
+   * Utiliza el catálogo pre-empaquetado para garantizar rendimiento instantáneo (<50ms, RNF-04)
+   * y que el build de Vercel/CI nunca falle por llamadas de red durante la generación estática.
    */
   static async getAllStandards(): Promise<StandardSummary[]> {
     return standardsSeedData.standards.map((s: any, idx: number) => ({
       id: `std-${idx + 1}`,
+      familyCode: standardsSeedData.family.code,
       code: s.code,
       title: s.title,
       shortTitle: s.shortTitle,

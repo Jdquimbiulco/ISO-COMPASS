@@ -9,14 +9,17 @@ async function main() {
 
   // 1. Crear usuarios por defecto con roles RBAC
   console.log('Creando usuarios iniciales...');
-  // Password hash genérico para "Password123!" generado con bcrypt
-  const samplePasswordHash = '$2a$10$wT0XkG8Hqm7Z6DkJv/5mbe9Qk2ZzG4hJz.yvY6.2E1d2h1J2k3m4a';
+  // Password hash real para "Password123!" generado con bcryptjs
+  const samplePasswordHash = '$2a$10$rVlPBUtgbHPNnlJscdZWi.3WIRcjLmjfa5KxqhTnKHbRNTAKRQuGG';
 
   const admin = await prisma.user.upsert({
     where: { email: 'admin@espe.edu.ec' },
-    update: {},
+    update: {
+      passwordHash: samplePasswordHash,
+      role: Role.ADMIN,
+    },
     create: {
-      name: 'Administrador ISO-COMPASS',
+      name: 'Juan Quimbiulco (Administrador GP)',
       email: 'admin@espe.edu.ec',
       passwordHash: samplePasswordHash,
       role: Role.ADMIN,
@@ -25,7 +28,10 @@ async function main() {
 
   const evaluator = await prisma.user.upsert({
     where: { email: 'evaluador@espe.edu.ec' },
-    update: {},
+    update: {
+      passwordHash: samplePasswordHash,
+      role: Role.EVALUATOR,
+    },
     create: {
       name: 'Ing. Evaluador Calidad',
       email: 'evaluador@espe.edu.ec',
@@ -36,7 +42,10 @@ async function main() {
 
   const consultant = await prisma.user.upsert({
     where: { email: 'consultor@espe.edu.ec' },
-    update: {},
+    update: {
+      passwordHash: samplePasswordHash,
+      role: Role.CONSULTANT,
+    },
     create: {
       name: 'Auditor Consultor',
       email: 'consultor@espe.edu.ec',
