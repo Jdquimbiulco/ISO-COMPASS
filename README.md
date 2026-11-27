@@ -161,14 +161,11 @@ Esta guía es universal para cualquier sistema operativo (**Windows, macOS o Lin
    ```
 
 3. **Configurar el archivo `.env`:**
-   Crea un archivo llamado `.env` en la raíz del proyecto y pega las cadenas de conexión compartidas por el equipo:
-   ```env
-   DATABASE_URL="postgresql://postgres.oixvmqqugizqwjwmauep:isoroot2026%21@aws-1-us-west-2.pooler.supabase.com:6543/postgres?pgbouncer=true"
-   DIRECT_URL="postgresql://postgres.oixvmqqugizqwjwmauep:isoroot2026%21@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
-   AUTH_SECRET="iso-compass-super-secret-key-development-2026"
-   NODE_ENV="development"
-   NEXT_PUBLIC_APP_URL="http://localhost:3000"
+   Crea un archivo llamado `.env` en la raíz del proyecto a partir de `.env.example`:
+   ```bash
+   cp .env.example .env
    ```
+   Y completa las variables de conexión a la base de datos y llaves de autenticación según corresponda a tu entorno.
 
 4. **Generar el cliente de Prisma:**
    ```bash
