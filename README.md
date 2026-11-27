@@ -209,20 +209,6 @@ Para garantizar que el equipo trabaje de forma ordenada y que el docente dispong
   3. **Ejecuta los tests unitarios automatizados (`npm test`):** Si alguien rompe la fórmula matemática o las reglas de cálculo de la ISO 29110, el pipeline falla y bloquea el merge.
   4. **Verifica la compilación (`npm run build`):** Asegura que no existan errores de TypeScript ni de sintaxis en Next.js.
 
-### Despliegue Continuo (CD en Vercel - Recomendado):
-**Vercel** es la plataforma oficial y gratuita creada por los desarrolladores de Next.js. Se conecta directamente a tu repositorio de GitHub:
-
-1. Entra a [vercel.com](https://vercel.com) e inicia sesión con tu cuenta de GitHub.
-2. Haz clic en **Add New...** $\rightarrow$ **Project** e importa tu repositorio `ISO-COMPASS`.
-3. En la sección **Environment Variables**, añade:
-   * `DATABASE_URL`: La URL del pooler de Supabase (puerto 6543).
-   * `DIRECT_URL`: La URL directa de Supabase (puerto 5432).
-   * `AUTH_SECRET`: Tu clave secreta.
-4. Haz clic en **Deploy**.
-5. **Resultado:** En 1 minuto tendrás una URL pública con HTTPS (ej. `https://iso-compass.vercel.app`) lista para entregar al docente.
-6. **Despliegue automático:** Cada vez que el equipo haga `git push` a `main`, Vercel recompilará y actualizará el sitio en vivo sin necesidad de hacer nada manual.
-
----
 
 ## 📊 7. Rúbrica de Evaluación y Metas de Calificación (100%)
 
