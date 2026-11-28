@@ -22,6 +22,9 @@ export async function POST(request: Request) {
 
     // 2. Cambio rápido demostrativo de rol RBAC (para evaluación del docente)
     if (action === 'quick_switch' && roleSwitchEmail) {
+      if (process.env.NODE_ENV === 'production') {
+        return NextResponse.json({ error: 'Inicia sesión para cambiar de cuenta.' }, { status: 403 });
+      }
       const targetUser =
         (await AuthService.authenticateUser(roleSwitchEmail, 'Password123!')) ||
         FALLBACK_USERS.find((u) => u.email === roleSwitchEmail) ||
@@ -59,7 +62,7 @@ export async function POST(request: Request) {
     const authenticated = await AuthService.authenticateUser(email, password);
     if (!authenticated) {
       return NextResponse.json(
-        { error: 'Credenciales inválidas. Verifica tu correo o contraseña (ej. Password123!).' },
+        { error: 'Credenciales inválidas. Verifica tu correo y contraseña.' },
         { status: 401 }
       );
     }
@@ -75,6 +78,7 @@ export async function POST(request: Request) {
       httpOnly: true,
       path: '/',
       sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
       maxAge: 60 * 60 * 24 * 7,
     });
 

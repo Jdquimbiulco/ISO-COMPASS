@@ -318,10 +318,10 @@
       "edition": "2012",
       "category": "GUIDELINES",
       "targetAudience": "Startups, emprendedores y microempresas (1 a 5 personas)",
-      "purpose": "Proveer una guía simplificada para empresas que inician en el desarrollo formal de software.",
-      "introduction": "El Perfil de Entrada es el primer escalón de la norma. Se enfoca en proyectos pequeños con requerimientos directos, estableciendo prácticas mínimas de planificación y control de entregables.",
-      "officialUrl": "https://www.iso.org/standard/59238.html",
-      "accessType": "FREE",
+      "purpose": "Orientar la gestión y la implementación de software en los primeros proyectos de una entidad muy pequeña.",
+      "introduction": "Un equipo que empieza puede acordar entregas pequeñas, repartir responsabilidades y probar cada incremento con el cliente antes de cerrarlo. La guía organiza estas prácticas en dos procesos, Gestión del Proyecto e Implementación de Software. Un equipo de una a cinco personas es un ejemplo de aplicación, dentro del alcance de la serie para entidades de hasta 25 personas. El catálogo presenta el informe de 2012 solicitado por la guía académica. ISO publicó una edición de reemplazo en 2025 (ISO/IEC, 2012, 2025a).",
+      "officialUrl": "https://www.iso.org/standard/60389.html",
+      "accessType": "ISO_PAID",
       "sections": [
         {
           "code": "ENT.1",
@@ -330,33 +330,33 @@
           "items": [
             {
               "code": "ENT.1.1",
-              "statement": "Existe un acuerdo básico por escrito con el cliente sobre el producto a construir.",
-              "expectedDeliverable": "Acuerdo de trabajo inicial",
+              "statement": "¿Se documentó por qué el Perfil de Entrada conviene al tamaño, alcance y experiencia del equipo?",
+              "expectedDeliverable": "Ficha de selección del perfil",
               "targetRole": "GP"
             },
             {
               "code": "ENT.1.2",
-              "statement": "Se listan los requisitos principales acordados con el cliente de forma verificable.",
-              "expectedDeliverable": "Lista de requisitos funcionales",
-              "targetRole": "AN"
+              "statement": "¿El equipo y el cliente acordaron por escrito qué se va a entregar y cómo se revisará?",
+              "expectedDeliverable": "Acuerdo de trabajo e instrucciones de entrega",
+              "targetRole": "GP, CL"
             },
             {
               "code": "ENT.1.3",
-              "statement": "Se realizan respaldos periódicos del código fuente.",
-              "expectedDeliverable": "Registro de respaldos",
-              "targetRole": "PR"
+              "statement": "¿El equipo asignó responsables y fechas a un conjunto pequeño de tareas verificables?",
+              "expectedDeliverable": "Plan de tareas con responsables y fechas",
+              "targetRole": "GP, ET"
             },
             {
               "code": "ENT.1.4",
-              "statement": "Se prueban los módulos básicos antes de la entrega al cliente.",
-              "expectedDeliverable": "Evidencia de pruebas funcionales",
-              "targetRole": "PR"
+              "statement": "¿El equipo conserva las versiones y respaldos de los artefactos que necesita para la entrega?",
+              "expectedDeliverable": "Repositorio e historial de respaldos",
+              "targetRole": "GP, PR"
             },
             {
               "code": "ENT.1.5",
-              "statement": "El cliente revisa y aprueba la entrega final del software.",
-              "expectedDeliverable": "Constancia de entrega",
-              "targetRole": "CL"
+              "statement": "¿Se anotaron las comprobaciones realizadas y la decisión del cliente sobre la entrega?",
+              "expectedDeliverable": "Resultados de revisión y constancia de entrega",
+              "targetRole": "PR, CL"
             }
           ]
         }
@@ -369,99 +369,479 @@
       "edition": "2011",
       "category": "GUIDELINES",
       "targetAudience": "VSEs que ejecutan un solo proyecto de software a la vez con un equipo pequeño",
-      "purpose": "Definir en detalle los dos procesos medulares: Gestión del Proyecto (GP) e Implementación de Software (IS).",
-      "introduction": "El Perfil Básico es el corazón de la serie ISO 29110. Provee plantillas y guías prácticas paso a paso para planificar, ejecutar, monitorear y cerrar proyectos de software garantizando calidad y satisfacción del cliente.",
-      "officialUrl": "https://www.iso.org/standard/59239.html",
-      "accessType": "FREE",
+      "purpose": "Dar a una entidad pequeña una forma de organizar un proyecto de software y comprobar sus resultados desde el acuerdo inicial hasta la entrega.",
+      "introduction": "Gestión del Proyecto (GP) transforma el acuerdo con el cliente en un plan, registra avances y cambios y deja constancia de la aceptación. Implementación de Software (IS) lleva los requisitos a diseño, código, pruebas y entrega. El informe de 2011 organiza GP en cuatro actividades e IS en seis. Cada ítem de esta ficha identifica una tarea y propone evidencia para revisarla. ISO publicó una edición de reemplazo en 2025 (ISO/IEC, 2011, 2025b).",
+      "officialUrl": "https://www.iso.org/standard/51153.html",
+      "accessType": "ISO_PAID",
       "sections": [
         {
-          "code": "GP",
-          "name": "Proceso de Gestión del Proyecto (GP)",
+          "code": "GP.1",
+          "name": "Planificación del proyecto",
           "orderIndex": 1,
           "items": [
             {
-              "code": "GP.1",
-              "statement": "Se revisó el Enunciado del trabajo y se definieron con el cliente las instrucciones de entrega.",
-              "expectedDeliverable": "Enunciado del trabajo [revisado]; Plan del proyecto",
-              "targetRole": "GP, LT, CL"
-            },
-            {
-              "code": "GP.2",
-              "statement": "Existe un Plan del proyecto con tareas, estimaciones, calendario, recursos, riesgos y estrategia de control de versiones.",
-              "expectedDeliverable": "Plan del proyecto aprobado",
-              "targetRole": "GP"
-            },
-            {
-              "code": "GP.3",
-              "statement": "Se registran reportes de avance y actas de reunión periódicas con el cliente y el equipo.",
-              "expectedDeliverable": "Reportes de avance; actas de reunión",
-              "targetRole": "GP, ET"
-            },
-            {
-              "code": "GP.4",
-              "statement": "El repositorio del proyecto cuenta con respaldo periódico y política de ramas definida.",
-              "expectedDeliverable": "Respaldo del repositorio y bitácora de commits",
+              "code": "GP.1.1",
+              "statement": "¿El equipo confirmó con una revisión qué trabajo debe entregar?",
+              "expectedDeliverable": "Enunciado del trabajo revisado",
               "targetRole": "GP, LT"
             },
             {
-              "code": "GP.5",
-              "statement": "Se compara el avance real con el plan y se definen e implementan acciones correctivas ante desviaciones.",
-              "expectedDeliverable": "Registro de acciones correctivas",
+              "code": "GP.1.2",
+              "statement": "¿Se acordaron con el cliente las condiciones de entrega de cada producto?",
+              "expectedDeliverable": "Instrucciones de entrega en el plan",
+              "targetRole": "GP, CL"
+            },
+            {
+              "code": "GP.1.3",
+              "statement": "¿El plan contempla construcción, verificación, validación y entrega?",
+              "expectedDeliverable": "Desglose de tareas del proyecto",
+              "targetRole": "GP, LT"
+            },
+            {
+              "code": "GP.1.4",
+              "statement": "¿Se calculó cuánto podría durar cada tarea?",
+              "expectedDeliverable": "Estimaciones de duración en el plan",
               "targetRole": "GP"
             },
             {
-              "code": "GP.6",
-              "statement": "Las solicitudes de cambio se evalúan y se registra formalmente su estado (propuesta, evaluada, aceptada, rechazada).",
-              "expectedDeliverable": "Registro de solicitudes de cambio",
+              "code": "GP.1.5",
+              "statement": "¿Se identificaron recursos y necesidades de capacitación?",
+              "expectedDeliverable": "Inventario de recursos y capacitación",
+              "targetRole": "GP, LT"
+            },
+            {
+              "code": "GP.1.6",
+              "statement": "¿Cada integrante sabe qué rol y responsabilidades tiene?",
+              "expectedDeliverable": "Asignación de roles del equipo",
+              "targetRole": "GP, LT"
+            },
+            {
+              "code": "GP.1.7",
+              "statement": "¿El calendario refleja las fechas y dependencias de las tareas?",
+              "expectedDeliverable": "Cronograma del proyecto",
+              "targetRole": "GP"
+            },
+            {
+              "code": "GP.1.8",
+              "statement": "¿El plan incluye estimaciones de esfuerzo y costo?",
+              "expectedDeliverable": "Estimación de esfuerzo y costo",
+              "targetRole": "GP"
+            },
+            {
+              "code": "GP.1.9",
+              "statement": "¿Se anotaron eventos que podrían poner en riesgo el proyecto?",
+              "expectedDeliverable": "Registro de riesgos del plan",
+              "targetRole": "GP"
+            },
+            {
+              "code": "GP.1.10",
+              "statement": "¿El equipo acordó cómo identificar versiones, hacer respaldos y recuperar el proyecto?",
+              "expectedDeliverable": "Estrategia de control de versiones",
+              "targetRole": "GP, LT"
+            },
+            {
+              "code": "GP.1.11",
+              "statement": "¿Los elementos de planificación están reunidos en un documento accesible?",
+              "expectedDeliverable": "Plan integrado del proyecto",
+              "targetRole": "GP"
+            },
+            {
+              "code": "GP.1.12",
+              "statement": "¿El plan identifica alcance, objetivos y entregas acordadas?",
+              "expectedDeliverable": "Plan con alcance y entregables",
+              "targetRole": "GP"
+            },
+            {
+              "code": "GP.1.13",
+              "statement": "¿Se comprobó que el plan es viable y se registró su revisión?",
+              "expectedDeliverable": "Plan verificado y resultados de verificación",
+              "targetRole": "GP, LT"
+            },
+            {
+              "code": "GP.1.14",
+              "statement": "¿El cliente dejó constancia de su aceptación del plan?",
+              "expectedDeliverable": "Plan aceptado y registro del acuerdo",
               "targetRole": "GP, CL"
             },
             {
-              "code": "GP.7",
-              "statement": "El cliente firma el acta de aceptación formal al cierre y finalización del proyecto.",
-              "expectedDeliverable": "Acta de aceptación del proyecto",
-              "targetRole": "GP, CL"
+              "code": "GP.1.15",
+              "statement": "¿Se preparó un repositorio acorde con la estrategia de versiones?",
+              "expectedDeliverable": "Repositorio del proyecto disponible",
+              "targetRole": "GP"
             }
           ]
         },
         {
-          "code": "IS",
-          "name": "Proceso de Implementación de Software (IS)",
+          "code": "GP.2",
+          "name": "Ejecución del plan",
           "orderIndex": 2,
           "items": [
             {
-              "code": "IS.1",
-              "statement": "El equipo de trabajo revisó el Plan del proyecto al dar inicio formal a la implementación.",
-              "expectedDeliverable": "Acta de reunión de inicio de implementación",
+              "code": "GP.2.1",
+              "statement": "¿El seguimiento recoge resultados reales de las tareas en curso?",
+              "expectedDeliverable": "Registro de avance actualizado",
+              "targetRole": "GP, LT, ET"
+            },
+            {
+              "code": "GP.2.2",
+              "statement": "¿Se midió el impacto técnico, económico y de calendario de los cambios?",
+              "expectedDeliverable": "Solicitud evaluada y plan ajustado cuando corresponde",
+              "targetRole": "GP, LT"
+            },
+            {
+              "code": "GP.2.3",
+              "statement": "¿El equipo revisó problemas y riesgos y dio seguimiento a los acuerdos?",
+              "expectedDeliverable": "Acta interna actualizada",
+              "targetRole": "GP, LT, ET"
+            },
+            {
+              "code": "GP.2.4",
+              "statement": "¿El cliente revisó los acuerdos y aceptó los cambios que lo afectan?",
+              "expectedDeliverable": "Acta y solicitudes aceptadas",
+              "targetRole": "GP, CL, LT, ET"
+            },
+            {
+              "code": "GP.2.5",
+              "statement": "¿Se hizo el respaldo del repositorio previsto por el equipo?",
+              "expectedDeliverable": "Respaldo del repositorio",
+              "targetRole": "GP"
+            },
+            {
+              "code": "GP.2.6",
+              "statement": "Si hubo pérdida de información, ¿se recuperó el repositorio con el respaldo?",
+              "expectedDeliverable": "Repositorio recuperado cuando corresponde",
+              "targetRole": "GP"
+            }
+          ]
+        },
+        {
+          "code": "GP.3",
+          "name": "Evaluación y control del proyecto",
+          "orderIndex": 3,
+          "items": [
+            {
+              "code": "GP.3.1",
+              "statement": "¿El equipo comparó los resultados reales con el costo, tiempo y objetivos planificados?",
+              "expectedDeliverable": "Registro de avance evaluado",
+              "targetRole": "GP, LT, ET"
+            },
+            {
+              "code": "GP.3.2",
+              "statement": "¿Se asignaron acciones para corregir desviaciones y se siguieron hasta su cierre?",
+              "expectedDeliverable": "Registro de acciones correctivas",
+              "targetRole": "GP, LT, ET"
+            },
+            {
+              "code": "GP.3.3",
+              "statement": "¿Se registraron y siguieron los cambios necesarios para tratar desviaciones importantes?",
+              "expectedDeliverable": "Solicitud de cambio iniciada",
+              "targetRole": "GP, LT, ET"
+            }
+          ]
+        },
+        {
+          "code": "GP.4",
+          "name": "Cierre del proyecto",
+          "orderIndex": 4,
+          "items": [
+            {
+              "code": "GP.4.1",
+              "statement": "¿El cliente recibió lo acordado y dejó constancia formal del cierre?",
+              "expectedDeliverable": "Acta de aceptación y configuración aceptada",
+              "targetRole": "GP, CL"
+            },
+            {
+              "code": "GP.4.2",
+              "statement": "¿La versión aceptada quedó archivada en el repositorio del proyecto?",
+              "expectedDeliverable": "Repositorio actualizado con la entrega aceptada",
+              "targetRole": "GP"
+            }
+          ]
+        },
+        {
+          "code": "IS.1",
+          "name": "Inicio de implementación",
+          "orderIndex": 5,
+          "items": [
+            {
+              "code": "IS.1.1",
+              "statement": "¿El equipo revisó el plan y confirmó cómo va a trabajar?",
+              "expectedDeliverable": "Plan revisado por el equipo",
+              "targetRole": "GP, LT, ET"
+            },
+            {
+              "code": "IS.1.2",
+              "statement": "¿El equipo dispone de un entorno preparado para implementar?",
+              "expectedDeliverable": "Verificación del entorno de trabajo",
+              "targetRole": "LT, ET"
+            }
+          ]
+        },
+        {
+          "code": "IS.2",
+          "name": "Análisis de requisitos",
+          "orderIndex": 6,
+          "items": [
+            {
+              "code": "IS.2.1",
+              "statement": "¿Se repartió el trabajo de requisitos según el plan vigente?",
+              "expectedDeliverable": "Asignaciones registradas en el plan",
               "targetRole": "LT, ET"
             },
             {
-              "code": "IS.2",
-              "statement": "La Especificación de requisitos de software está verificada por el equipo y validada formalmente por el cliente.",
-              "expectedDeliverable": "Especificación de requisitos [validada]; Resultado de validación",
+              "code": "IS.2.2",
+              "statement": "¿Se consultaron las fuentes pertinentes y se documentó qué debe resolver el software?",
+              "expectedDeliverable": "Especificación de requisitos",
               "targetRole": "AN, CL"
             },
             {
-              "code": "IS.3",
-              "statement": "Existe un diseño de arquitectura y diseño detallado que es trazable bidireccionalmente hacia los requisitos.",
-              "expectedDeliverable": "Documento de diseño de software; Matriz de trazabilidad",
-              "targetRole": "DIS, LT"
+              "code": "IS.2.3",
+              "statement": "¿Se comprobó que los requisitos son coherentes, completos y comprobables?",
+              "expectedDeliverable": "Especificación verificada y resultados de revisión",
+              "targetRole": "AN, LT"
             },
             {
-              "code": "IS.4",
-              "statement": "Los componentes de software se construyeron y cuentan con pruebas unitarias automatizadas documentadas.",
-              "expectedDeliverable": "Componentes de software; Resultados de pruebas unitarias",
+              "code": "IS.2.4",
+              "statement": "¿El cliente confirmó que los requisitos reflejan sus necesidades?",
+              "expectedDeliverable": "Especificación validada y registro de validación",
+              "targetRole": "AN, CL"
+            },
+            {
+              "code": "IS.2.5",
+              "statement": "Si el proyecto lo requiere, ¿hay una versión inicial de la documentación de usuario?",
+              "expectedDeliverable": "Documentación preliminar de usuario",
+              "targetRole": "AN"
+            },
+            {
+              "code": "IS.2.6",
+              "statement": "Cuando existe una guía preliminar, ¿se comprobó su coherencia con los requisitos?",
+              "expectedDeliverable": "Resultados de verificación de la guía",
+              "targetRole": "AN"
+            },
+            {
+              "code": "IS.2.7",
+              "statement": "¿Se guardó como referencia la versión validada de requisitos y la guía preliminar aplicable?",
+              "expectedDeliverable": "Configuración con requisitos y documentación de referencia",
+              "targetRole": "LT"
+            }
+          ]
+        },
+        {
+          "code": "IS.3",
+          "name": "Arquitectura y diseño detallado",
+          "orderIndex": 7,
+          "items": [
+            {
+              "code": "IS.3.1",
+              "statement": "¿El equipo repartió las tareas de diseño de acuerdo con los roles del plan?",
+              "expectedDeliverable": "Asignaciones de diseño",
+              "targetRole": "LT, AN, DIS"
+            },
+            {
+              "code": "IS.3.2",
+              "statement": "¿El equipo de diseño revisó los requisitos validados antes de decidir la solución?",
+              "expectedDeliverable": "Requisitos de referencia para el diseño",
+              "targetRole": "AN, DIS"
+            },
+            {
+              "code": "IS.3.3",
+              "statement": "¿El diseño identifica componentes e interfaces y los relaciona con sus requisitos?",
+              "expectedDeliverable": "Diseño de software y registro de trazabilidad",
+              "targetRole": "AN, DIS"
+            },
+            {
+              "code": "IS.3.4",
+              "statement": "¿Se revisaron la viabilidad del diseño y sus vínculos con los requisitos?",
+              "expectedDeliverable": "Diseño y trazabilidad verificados",
+              "targetRole": "AN, DIS"
+            },
+            {
+              "code": "IS.3.5",
+              "statement": "¿Se prepararon casos y procedimientos para comprobar el sistema integrado?",
+              "expectedDeliverable": "Casos y procedimientos de integración",
+              "targetRole": "DIS"
+            },
+            {
+              "code": "IS.3.6",
+              "statement": "¿Se comprobó que las pruebas propuestas cubren los requisitos y el diseño?",
+              "expectedDeliverable": "Pruebas de integración verificadas",
+              "targetRole": "DIS, AN"
+            },
+            {
+              "code": "IS.3.7",
+              "statement": "¿El registro permite ubicar las pruebas que corresponden a cada elemento?",
+              "expectedDeliverable": "Trazabilidad actualizada con las pruebas",
+              "targetRole": "DIS"
+            },
+            {
+              "code": "IS.3.8",
+              "statement": "¿La versión aprobada de diseño y trazabilidad quedó bajo control de cambios?",
+              "expectedDeliverable": "Configuración con diseño y trazabilidad de referencia",
+              "targetRole": "LT"
+            }
+          ]
+        },
+        {
+          "code": "IS.4",
+          "name": "Construcción de software",
+          "orderIndex": 8,
+          "items": [
+            {
+              "code": "IS.4.1",
+              "statement": "¿El plan asigna a los programadores los componentes que deben construir?",
+              "expectedDeliverable": "Asignaciones de construcción",
+              "targetRole": "LT, PR"
+            },
+            {
+              "code": "IS.4.2",
+              "statement": "¿Los programadores revisaron el diseño de los componentes asignados?",
+              "expectedDeliverable": "Diseño de referencia disponible",
               "targetRole": "PR"
             },
             {
-              "code": "IS.5",
-              "statement": "Se ejecutaron pruebas de integración y del sistema, y se documentaron detalladamente sus resultados.",
-              "expectedDeliverable": "Casos y procedimientos de prueba; Informe formal de pruebas",
-              "targetRole": "PR, ET"
+              "code": "IS.4.3",
+              "statement": "¿Los componentes construidos reflejan el diseño acordado?",
+              "expectedDeliverable": "Componentes construidos o modificados",
+              "targetRole": "PR"
             },
             {
-              "code": "IS.6",
-              "statement": "Se entregó la configuración de software completa acompañada de la guía de usuario y el manual técnico de mantenimiento.",
-              "expectedDeliverable": "Configuración de software entregada; Guía de usuario; Manual técnico",
+              "code": "IS.4.4",
+              "statement": "¿Se ejecutaron pruebas unitarias que contrastan cada componente con el diseño?",
+              "expectedDeliverable": "Componentes con pruebas unitarias ejecutadas",
+              "targetRole": "PR"
+            },
+            {
+              "code": "IS.4.5",
+              "statement": "¿Se corrigieron los defectos detectados y se verificó el criterio de término?",
+              "expectedDeliverable": "Componentes corregidos",
+              "targetRole": "PR"
+            },
+            {
+              "code": "IS.4.6",
+              "statement": "¿Se registró qué componentes implementan cada parte del diseño?",
+              "expectedDeliverable": "Trazabilidad de componentes actualizada",
+              "targetRole": "PR"
+            },
+            {
+              "code": "IS.4.7",
+              "statement": "¿Los componentes corregidos y su trazabilidad forman parte de la versión de referencia?",
+              "expectedDeliverable": "Configuración con componentes y trazabilidad",
+              "targetRole": "LT"
+            }
+          ]
+        },
+        {
+          "code": "IS.5",
+          "name": "Integración y pruebas de software",
+          "orderIndex": 9,
+          "items": [
+            {
+              "code": "IS.5.1",
+              "statement": "¿El equipo asignó responsables para la integración y las pruebas?",
+              "expectedDeliverable": "Asignaciones de integración",
+              "targetRole": "LT, PR"
+            },
+            {
+              "code": "IS.5.2",
+              "statement": "¿Se revisaron los procedimientos y se preparó el entorno de pruebas?",
+              "expectedDeliverable": "Entorno y procedimientos comprobados",
+              "targetRole": "PR"
+            },
+            {
+              "code": "IS.5.3",
+              "statement": "¿Se integraron los componentes y se ajustaron los casos de prueba necesarios?",
+              "expectedDeliverable": "Software integrado y pruebas actualizadas",
+              "targetRole": "PR"
+            },
+            {
+              "code": "IS.5.4",
+              "statement": "¿Se ejecutaron las pruebas del sistema integrado y se documentó el resultado?",
+              "expectedDeliverable": "Software probado e informe de pruebas",
+              "targetRole": "PR, CL"
+            },
+            {
+              "code": "IS.5.5",
+              "statement": "¿Se corrigieron los defectos de integración y se ejecutaron pruebas de regresión?",
+              "expectedDeliverable": "Software corregido e informe de pruebas actualizado",
+              "targetRole": "PR"
+            },
+            {
+              "code": "IS.5.6",
+              "statement": "¿Se actualizó la trazabilidad si la integración modificó las relaciones registradas?",
+              "expectedDeliverable": "Trazabilidad de integración actualizada",
+              "targetRole": "PR"
+            },
+            {
+              "code": "IS.5.7",
+              "statement": "Si se requiere una guía de operación, ¿describe cómo operar la versión probada?",
+              "expectedDeliverable": "Guía de operación del producto",
+              "targetRole": "PR"
+            },
+            {
+              "code": "IS.5.8",
+              "statement": "Si hay guía de operación, ¿se revisó que concuerde con el software?",
+              "expectedDeliverable": "Guía de operación verificada y resultados de revisión",
+              "targetRole": "PR, DIS"
+            },
+            {
+              "code": "IS.5.9",
+              "statement": "Si se requiere documentación de usuario, ¿está actualizada con la versión probada?",
+              "expectedDeliverable": "Documentación de usuario actualizada",
+              "targetRole": "AN"
+            },
+            {
+              "code": "IS.5.10",
+              "statement": "Si hay documentación de usuario, ¿se verificaron los pasos y se registró su aprobación?",
+              "expectedDeliverable": "Guía de usuario verificada y resultados de revisión",
+              "targetRole": "AN, PR"
+            },
+            {
+              "code": "IS.5.11",
+              "statement": "¿Los artefactos de integración, pruebas y las guías aplicables quedaron bajo control de versiones?",
+              "expectedDeliverable": "Configuración integrada de referencia",
+              "targetRole": "LT"
+            }
+          ]
+        },
+        {
+          "code": "IS.6",
+          "name": "Entrega del producto",
+          "orderIndex": 10,
+          "items": [
+            {
+              "code": "IS.6.1",
+              "statement": "¿Se repartieron las tareas de preparación y entrega del producto?",
+              "expectedDeliverable": "Asignaciones de entrega",
+              "targetRole": "LT, ET"
+            },
+            {
+              "code": "IS.6.2",
+              "statement": "¿El equipo confirmó qué elementos integran la configuración que se entregará?",
+              "expectedDeliverable": "Configuración de software revisada",
+              "targetRole": "ET"
+            },
+            {
+              "code": "IS.6.3",
+              "statement": "¿Se preparó documentación para mantener la versión que se va a entregar?",
+              "expectedDeliverable": "Documentación de mantenimiento",
+              "targetRole": "DIS"
+            },
+            {
+              "code": "IS.6.4",
+              "statement": "¿Se comprobó que la documentación de mantenimiento coincide con la configuración?",
+              "expectedDeliverable": "Documentación de mantenimiento verificada",
+              "targetRole": "DIS, LT"
+            },
+            {
+              "code": "IS.6.5",
+              "statement": "¿La documentación de mantenimiento aprobada quedó incluida en la versión de referencia?",
+              "expectedDeliverable": "Configuración con documentación de mantenimiento",
+              "targetRole": "LT"
+            },
+            {
+              "code": "IS.6.6",
+              "statement": "¿Se entregó al cliente la configuración de acuerdo con las instrucciones acordadas?",
+              "expectedDeliverable": "Configuración de software entregada",
               "targetRole": "LT, GP"
             }
           ]
@@ -628,8 +1008,8 @@
       "edition": "2025",
       "category": "GUIDELINES",
       "targetAudience": "VSEs que adoptan marcos ágiles (Scrum, Kanban, XP) manteniendo la disciplina de calidad",
-      "purpose": "Armonizar eventos y artefactos ágiles con los requisitos del Perfil Básico de la norma.",
-      "introduction": "Publicada en 2025, esta guía representa la modernización clave de la serie ISO 29110. Explica cómo implementar sprints, retrospectivas e historias de usuario cumpliendo al mismo tiempo con la documentación rigurosa que exige ISO.",
+      "purpose": "Adaptar prácticas de la serie ISO/IEC 29110 a la entrega iterativa de software en entidades muy pequeñas.",
+      "introduction": "La guía presenta cómo reforzar el trabajo ágil con prácticas de la serie ISO/IEC 29110 en proyectos de software que no sean críticos para la seguridad ni para el negocio. Por ejemplo, un equipo que usa Scrum puede vincular los objetivos de cada sprint al plan, registrar en la demo las decisiones del cliente y conservar resultados de las pruebas de cada incremento. En la lista, estos elementos se usan como ejemplos para conectar GP e IS con el trabajo iterativo (ISO/IEC, 2025c).",
       "officialUrl": "https://www.iso.org/standard/82668.html",
       "accessType": "ISO_PAID",
       "sections": [
@@ -640,32 +1020,32 @@
           "items": [
             {
               "code": "AGL.1.1",
-              "statement": "El Product Backlog se gestiona con historias de usuario priorizadas que representan los requisitos validados.",
-              "expectedDeliverable": "Product Backlog priorizado",
+              "statement": "¿El equipo relaciona el trabajo priorizado con los requisitos y necesidades confirmados por el cliente?",
+              "expectedDeliverable": "Lista de trabajo priorizada y vinculada a los requisitos",
               "targetRole": "AN"
             },
             {
               "code": "AGL.1.2",
-              "statement": "Se realizan ceremonias de planificación de sprint donde se definen objetivos e ítems comprometidos.",
-              "expectedDeliverable": "Sprint Backlog y definición de hecho (DoD)",
+              "statement": "Si el equipo usa sprints, ¿vincula su objetivo y las tareas seleccionadas al plan de trabajo?",
+              "expectedDeliverable": "Objetivo y tareas del sprint vinculados al plan",
               "targetRole": "ET"
             },
             {
               "code": "AGL.1.3",
-              "statement": "Se ejecutan revisiones de sprint (demos) con el cliente para validar incrementos de software.",
-              "expectedDeliverable": "Acta de revisión de sprint con feedback del cliente",
-              "targetRole": "CL"
+              "statement": "¿Las revisiones del incremento recogen decisiones del cliente y las relacionan con los requisitos?",
+              "expectedDeliverable": "Registro de decisiones de la demostración o revisión",
+              "targetRole": "ET, CL"
             },
             {
               "code": "AGL.1.4",
-              "statement": "El equipo lleva a cabo reuniones de retrospectiva e implementa mejoras en cada iteración.",
-              "expectedDeliverable": "Plan de mejora de retrospectiva",
+              "statement": "¿El equipo registra qué cambiará en su forma de trabajo a partir de lo observado en la iteración?",
+              "expectedDeliverable": "Acciones de mejora acordadas por el equipo",
               "targetRole": "ET"
             },
             {
               "code": "AGL.1.5",
-              "statement": "Se mantiene la integración continua y pruebas automatizadas en cada incremento de software.",
-              "expectedDeliverable": "Pipeline de CI/CD con pruebas ejecutadas",
+              "statement": "¿Se puede comprobar qué pruebas pasaron para la versión revisada de cada incremento?",
+              "expectedDeliverable": "Registro de pruebas asociado con la versión",
               "targetRole": "PR"
             }
           ]

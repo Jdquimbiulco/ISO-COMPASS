@@ -31,8 +31,9 @@ const DEMO_ACCOUNTS = [
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('admin@espe.edu.ec');
-  const [password, setPassword] = useState('Password123!');
+  const development = process.env.NODE_ENV !== 'production';
+  const [email, setEmail] = useState(development ? 'admin@espe.edu.ec' : '');
+  const [password, setPassword] = useState(development ? 'Password123!' : '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -53,7 +54,7 @@ export default function LoginPage() {
         setLoading(false);
         return;
       }
-      router.push('/admin');
+      router.push(data.user?.role === 'ADMIN' ? '/admin' : '/evaluaciones');
       router.refresh();
     } catch {
       setError('Error de conexión con el servidor.');
@@ -97,7 +98,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="space-y-2.5">
+          {development && <div className="space-y-2.5">
             <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
               Cuentas de Prueba para Evaluación Docente (Clic para autocompletar):
             </p>
@@ -130,7 +131,7 @@ export default function LoginPage() {
                 </Badge>
               </button>
             ))}
-          </div>
+          </div>}
         </div>
 
         {/* Columna Derecha: Formulario de Inicio de Sesión */}
@@ -180,9 +181,9 @@ export default function LoginPage() {
                   placeholder="••••••••••••"
                   className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
-                <p className="text-[11px] text-gray-500">
+                {development && <p className="text-[11px] text-gray-500">
                   Contraseña por defecto de las cuentas semilla: <code className="font-mono font-semibold">Password123!</code>
-                </p>
+                </p>}
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>

@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server';
 import { AdminService } from '@/services/admin.service';
-import { AuthService } from '@/services/auth.service';
+import { AuthService, DEVELOPMENT_PASSWORD } from '@/services/auth.service';
 import { getRolePermissions, UserRole } from '@/core/rbac';
 
 export async function GET() {
   const session = AuthService.getCurrentSession();
   const permissions = getRolePermissions(session.role);
+  if (!permissions.canManageUsers && !permissions.canManageFamiliesAndStandards) {
+    return NextResponse.json({ session, permissions, error: 'Se requiere una cuenta administradora.' }, { status: 403 });
+  }
   const data = await AdminService.getDashboardData();
 
   return NextResponse.json({
@@ -35,10 +38,14 @@ export async function POST(request: Request) {
     // 1. Gestión de Usuarios RBAC
     if (entity === 'user') {
       if (action === 'create') {
+        if (process.env.NODE_ENV === 'production' &&
+          (typeof body.password !== 'string' || !body.password.trim() || body.password === DEVELOPMENT_PASSWORD)) {
+          return NextResponse.json({ error: 'Asigna una contraseña propia a la cuenta.' }, { status: 400 });
+        }
         const created = await AdminService.createUser({
           name: body.name,
           email: body.email,
-          passwordPlain: body.password || 'Password123!',
+          passwordPlain: body.password || DEVELOPMENT_PASSWORD,
           role: (body.role as UserRole) || 'EVALUATOR',
         });
         return NextResponse.json({ ok: true, user: created });

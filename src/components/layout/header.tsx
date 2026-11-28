@@ -71,7 +71,7 @@ export function Header() {
 
       <div className="flex flex-wrap items-center gap-2 sm:gap-3">
         {/* Selector Rápido de Rol RBAC (RNF-03 / M7) */}
-        <div className="flex items-center gap-1.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg px-2.5 py-1">
+        {process.env.NODE_ENV !== 'production' && <div className="flex items-center gap-1.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg px-2.5 py-1">
           <Shield className="h-3.5 w-3.5 text-brand-600" />
           <span className="text-[11px] font-medium text-gray-500 hidden sm:inline">Simular Rol RBAC:</span>
           <select
@@ -86,7 +86,7 @@ export function Header() {
             <option value="consultor@espe.edu.ec">CONSULTANT (Solo Lectura)</option>
           </select>
           {switching && <RefreshCw className="h-3 w-3 animate-spin text-brand-600" />}
-        </div>
+        </div>}
 
         <div className="flex items-center gap-2.5 pl-3 border-l border-gray-200 dark:border-gray-800">
           <div className="h-8 w-8 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-xs">
@@ -100,8 +100,10 @@ export function Header() {
               <span className="text-[10px] font-mono text-brand-600 dark:text-brand-400 font-semibold">
                 {user.role}
               </span>
-              <span className="text-[10px] text-gray-400">•</span>
-              <span className="text-[10px] text-gray-500">{user.email}</span>
+              {user.email && <>
+                <span className="text-[10px] text-gray-400">•</span>
+                <span className="text-[10px] text-gray-500">{user.email}</span>
+              </>}
             </div>
           </div>
           <Link href="/login" className="inline-flex min-h-9 items-center gap-1.5 rounded-md px-2.5 text-xs font-semibold text-brand-800 hover:bg-brand-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-600 dark:text-brand-200 dark:hover:bg-gray-900">

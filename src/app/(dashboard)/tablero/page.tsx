@@ -1,130 +1,134 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { BarChart3, TrendingUp, AlertTriangle, CheckCircle2, Download } from 'lucide-react';
 import Link from 'next/link';
+import { ComplianceCharts } from '@/components/evaluations/compliance-charts';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { EvaluationData, getEvaluationResults, getEvaluationUser } from '@/services/evaluation.service';
 
-export default function TableroPage() {
-  // Datos demostrativos calculados con la fórmula para la VSE AndesTech Solutions
-  const totalItems = 13; // Perfil Básico: 7 GP + 6 IS
-  const c = 8;
-  const p = 3;
-  const nc = 1;
-  const na = 1;
-  const applicable = totalItems - na; // 12
-  const score = c + 0.5 * p; // 8 + 1.5 = 9.5
-  const percentage = Math.round((score / applicable) * 1000) / 10; // 79.2% -> En progreso
+export const dynamic = 'force-dynamic';
 
+export default async function TableroPage({ searchParams }: { searchParams: { evaluacion?: string } }) {
+  const heading = <h1 className="text-2xl font-bold">Tablero de cumplimiento</h1>;
+  const user = await getEvaluationUser();
+  if (!user) {
+    return (
+      <div className="space-y-3">
+        {heading}
+        <p><Link href="/login" className="text-brand-700 underline dark:text-brand-300">Inicia sesión</Link> para ver el avance de las evaluaciones.</p>
+      </div>
+    );
+  }
+
+  const evaluations = await EvaluationData.list(user);
+  const selected = searchParams.evaluacion ?? evaluations[0]?.id;
+  const evaluation = selected ? await EvaluationData.get(user, selected) : null;
+  if (!evaluation) {
+    return (
+      <div className="space-y-3">
+        {heading}
+        <p>{selected ? 'Esta evaluación no está disponible.' : 'Todavía no hay evaluaciones.'}</p>
+        <Link href="/evaluaciones" className="text-brand-700 underline dark:text-brand-300">Ir a evaluaciones</Link>
+      </div>
+    );
+  }
+
+  const { compliance, gaps, processes } = getEvaluationResults(evaluation);
+  const latestByStandard = new Map<string, string>();
+  for (const entry of evaluations) {
+    if (entry.organization.id === evaluation.organizationId && !latestByStandard.has(entry.standard.code)) {
+      latestByStandard.set(entry.standard.code, entry.id);
+    }
+  }
+  const organizationEvaluations = await Promise.all(Array.from(latestByStandard.values(), (id) =>
+    id === evaluation.id ? evaluation : EvaluationData.get(user, id)
+  ));
+  let organizationScore = 0;
+  let organizationItems = 0;
+  for (const entry of organizationEvaluations) {
+    if (!entry) continue;
+    const result = entry.id === evaluation.id ? compliance : getEvaluationResults(entry).compliance;
+    organizationScore += result.score;
+    organizationItems += result.applicableItems;
+  }
+  const organizationPercentage = organizationItems ? Math.round(10000 * organizationScore / organizationItems) / 100 : 0;
+  const {
+    compliantCount, partiallyCompliantCount, nonCompliantCount, notApplicableCount,
+    totalItems, percentage, statusLabel,
+  } = compliance;
+  const graded = compliantCount + partiallyCompliantCount + nonCompliantCount + notApplicableCount;
+  const distribution = [
+    { name: 'Cumple', total: compliantCount, color: '#16a34a' },
+    { name: 'Cumple parcialmente', total: partiallyCompliantCount, color: '#d97706' },
+    { name: 'No cumple', total: nonCompliantCount, color: '#dc2626' },
+    { name: 'No aplica', total: notApplicableCount, color: '#64748b' },
+    { name: 'Sin calificar', total: totalItems - graded, color: '#cbd5e1' },
+  ];
+
+  const date = new Intl.DateTimeFormat('es-EC', { dateStyle: 'short', timeZone: 'America/Guayaquil' });
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="mx-auto max-w-6xl space-y-6">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
-            M5. Tablero de Estado de Aplicación y Madurez
-          </h1>
-          <p className="text-sm text-gray-500">
-            Indicadores de cumplimiento en tiempo real para: <strong>AndesTech Solutions (VSE Piloto)</strong>
-          </p>
+          {heading}
+          <p className="text-sm text-gray-600 dark:text-gray-400">{evaluation.organization.name} · {evaluation.standard.shortTitle}</p>
         </div>
-
-        <Link href="/reportes">
-          <Button variant="outline" size="sm">
-            <Download className="mr-2 h-4 w-4" /> Exportar Reporte Formal
-          </Button>
+        <Link
+          className="rounded border px-3 py-2 text-sm font-medium"
+          href={`/evaluaciones?norma=${encodeURIComponent(evaluation.standard.code)}&evaluacion=${encodeURIComponent(evaluation.id)}#checklist`}
+        >
+          Ver lista de verificación
         </Link>
       </div>
-
-      {/* Tarjetas de Métricas Principales */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription className="text-xs">Porcentaje de Cumplimiento</CardDescription>
-            <CardTitle className="text-3xl font-extrabold text-blue-600">{percentage}%</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-xs text-gray-500 font-mono">Fórmula: (8 + 0.5×3)/(13 - 1) × 100</p>
-          </CardContent>
+      {evaluations.length > 1 && (
+        <nav aria-label="Cambiar evaluación del tablero" className="flex flex-wrap gap-2">
+          {evaluations.map((entry) => (
+            <Link
+              key={entry.id}
+              href={`/tablero?evaluacion=${encodeURIComponent(entry.id)}`}
+              aria-current={entry.id === evaluation.id ? 'page' : undefined}
+              className="rounded border px-3 py-2 text-sm aria-[current=page]:border-brand-600 aria-[current=page]:bg-brand-50 dark:aria-[current=page]:bg-brand-950"
+            >
+              {entry.organization.name} · {entry.standard.shortTitle} · {date.format(entry.evaluationDate)}
+            </Link>
+          ))}
+        </nav>
+      )}
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <Card><CardHeader><CardTitle className="text-sm">Cumplimiento de la norma</CardTitle></CardHeader>
+          <CardContent className="text-2xl font-bold text-brand-700 dark:text-brand-300">{percentage}%</CardContent>
         </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription className="text-xs">Estado de Aplicación (Tabla 4)</CardDescription>
-            <CardTitle className="text-2xl font-bold text-amber-600">En progreso</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Badge variant="warning">Rango 40% a 79%</Badge>
-          </CardContent>
+        <Card><CardHeader><CardTitle className="text-sm">Estado de aplicación</CardTitle></CardHeader>
+          <CardContent><Badge>{statusLabel}</Badge></CardContent>
         </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription className="text-xs">Ítems Evaluados</CardDescription>
-            <CardTitle className="text-3xl font-extrabold text-gray-900">{totalItems}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-xs text-gray-500">8 Conformes | 3 Parciales | 1 Brecha</p>
-          </CardContent>
+        <Card><CardHeader><CardTitle className="text-sm">Ítems evaluados</CardTitle></CardHeader>
+          <CardContent className="text-2xl font-bold">{graded} / {totalItems}</CardContent>
         </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription className="text-xs">Perfil Objetivo</CardDescription>
-            <CardTitle className="text-2xl font-bold text-emerald-600">Perfil Básico</CardTitle>
-          </CardHeader>
+        <Card><CardHeader><CardTitle className="text-sm">Cumplimiento de la organización</CardTitle></CardHeader>
           <CardContent>
-            <Badge variant="success">Procesos GP e IS</Badge>
+            <p className="text-2xl font-bold">{organizationPercentage}%</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">Última evaluación disponible de cada norma</p>
           </CardContent>
         </Card>
       </div>
-
-      {/* Matriz de Brechas (GAPs) Identificadas */}
+      <ComplianceCharts distribution={distribution} processes={processes} />
       <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-amber-500" />
-            <CardTitle className="text-lg">Brechas Identificadas (Ítems Parciales o No Cumplidos)</CardTitle>
-          </div>
-          <CardDescription>
-            Acciones correctivas necesarias antes de proceder a la auditoría formal de certificación.
-          </CardDescription>
-        </CardHeader>
+        <CardHeader><CardTitle className="text-lg">Brechas y acciones de mejora</CardTitle></CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-gray-50 dark:bg-gray-900 text-xs text-gray-500 uppercase border-y">
-                <tr>
-                  <th className="py-3 px-4">Código</th>
-                  <th className="py-3 px-4">Práctica / Apartado</th>
-                  <th className="py-3 px-4">Calificación</th>
-                  <th className="py-3 px-4">Producto Esperado</th>
-                  <th className="py-3 px-4">Rol</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                <tr>
-                  <td className="py-3 px-4 font-mono font-semibold text-xs">GP.6</td>
-                  <td className="py-3 px-4">Registro y evaluación formal de solicitudes de cambio del cliente.</td>
-                  <td className="py-3 px-4"><Badge variant="destructive">No cumple</Badge></td>
-                  <td className="py-3 px-4 text-xs text-gray-600">Registro de solicitudes de cambio</td>
-                  <td className="py-3 px-4 font-mono text-xs">GP, CL</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-mono font-semibold text-xs">IS.3</td>
-                  <td className="py-3 px-4">Matriz de trazabilidad bidireccional entre diseño detallado y requisitos.</td>
-                  <td className="py-3 px-4"><Badge variant="warning">Cumple parcialmente</Badge></td>
-                  <td className="py-3 px-4 text-xs text-gray-600">Matriz de trazabilidad de diseño</td>
-                  <td className="py-3 px-4 font-mono text-xs">DIS, LT</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-mono font-semibold text-xs">IS.4</td>
-                  <td className="py-3 px-4">Pruebas unitarias automatizadas para los componentes centrales.</td>
-                  <td className="py-3 px-4"><Badge variant="warning">Cumple parcialmente</Badge></td>
-                  <td className="py-3 px-4 text-xs text-gray-600">Resultados de pruebas unitarias</td>
-                  <td className="py-3 px-4 font-mono text-xs">PR</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {gaps.length ? (
+            <ul className="divide-y dark:divide-gray-800">
+              {gaps.map((gap) => (
+                <li key={gap.itemId} className="space-y-1 py-3 text-sm">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <strong>{gap.itemCode}</strong>
+                    <Badge variant={gap.value === 'NC' ? 'destructive' : 'warning'}>
+                      {gap.value === 'NC' ? 'No cumple' : 'Cumple parcialmente'}
+                    </Badge>
+                  </div>
+                  <p>{gap.statement}</p>
+                  <p className="text-gray-600 dark:text-gray-400">{gap.suggestedAction}</p>
+                </li>
+              ))}
+            </ul>
+          ) : <p className="text-sm">Aún no se han registrado brechas.</p>}
         </CardContent>
       </Card>
     </div>

@@ -1,85 +1,35 @@
-import { prisma } from '@/lib/prisma';
+import { analyzeGaps } from '@/core/gap-analyzer';
 import { calculateCompliance } from '@/core/compliance-calculator';
-import { ResponseValue } from '@/core/types';
+import { EvaluationData } from '@/lib/evaluations-data';
+import { AuthService } from '@/services/auth.service';
 
-export interface SaveResponseInput {
-  evaluationId: string;
-  itemId: string;
-  value: ResponseValue;
-  observations?: string;
-  assignedRole?: string;
+export { EvaluationData, EvaluationError, MAX_EVIDENCE_BYTES } from '@/lib/evaluations-data';
+
+export async function getEvaluationUser() {
+  const session = AuthService.getAuthenticatedSession();
+  return session ? EvaluationData.getUser(session.id) : null;
 }
 
-export class EvaluationService {
-  /**
-   * Guarda o actualiza la respuesta a un ítem de verificación
-   * y recalcula automáticamente el cumplimiento de la evaluación.
-   */
-  static async saveItemResponse(input: SaveResponseInput) {
-    // 1. Guardar o actualizar la respuesta
-    const response = await prisma.evaluationResponse.upsert({
-      where: {
-        evaluationId_itemId: {
-          evaluationId: input.evaluationId,
-          itemId: input.itemId,
-        },
-      },
-      update: {
-        value: input.value,
-        observations: input.observations,
-        assignedRole: input.assignedRole,
-        evaluationDate: new Date(),
-      },
-      create: {
-        evaluationId: input.evaluationId,
-        itemId: input.itemId,
-        value: input.value,
-        observations: input.observations,
-        assignedRole: input.assignedRole,
-      },
-    });
+export function getEvaluationResults(evaluation: NonNullable<Awaited<ReturnType<typeof EvaluationData.get>>>) {
+  const responsesById = new Map(evaluation.responses.map((response) => [response.itemId, response]));
+  const items = evaluation.standard.sections.flatMap((section) =>
+    section.items.map((item) => ({ ...item, response: responsesById.get(item.id) }))
+  );
+  const compliance = calculateCompliance(items.flatMap((item) => item.response ? [item.response] : []), items.length);
+  const processItems = new Map<string, typeof items>();
 
-    // 2. Obtener todas las respuestas vigentes de la evaluación
-    const allResponses = await prisma.evaluationResponse.findMany({
-      where: { evaluationId: input.evaluationId },
-    });
-
-    // 3. Obtener el total de ítems de la norma evaluada
-    const evaluation = await prisma.evaluation.findUnique({
-      where: { id: input.evaluationId },
-      include: {
-        standard: {
-          include: {
-            sections: {
-              include: { items: true },
-            },
-          },
-        },
-      },
-    });
-
-    if (evaluation) {
-      const totalItems = evaluation.standard.sections.reduce(
-        (acc, sec) => acc + sec.items.length,
-        0
-      );
-
-      // 4. Calcular con la fórmula matemática oficial
-      const result = calculateCompliance(
-        allResponses.map((r) => ({ value: r.value as ResponseValue })),
-        totalItems
-      );
-
-      // 5. Actualizar el porcentaje y estado en la BD
-      await prisma.evaluation.update({
-        where: { id: input.evaluationId },
-        data: {
-          compliancePercentage: result.percentage,
-          status: result.status,
-        },
-      });
-    }
-
-    return response;
+  for (const item of items) {
+    const process = /^(GP|IS)(\.|$)/.exec(item.code)?.[1];
+    if (!process) continue;
+    const group = processItems.get(process);
+    if (group) group.push(item);
+    else processItems.set(process, [item]);
   }
+
+  const processes = Array.from(processItems, ([name, group]) => ({
+    name,
+    percentage: calculateCompliance(group.flatMap((item) => item.response ? [item.response] : []), group.length).percentage,
+  }));
+
+  return { compliance, processes, gaps: analyzeGaps(items) };
 }

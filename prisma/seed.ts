@@ -7,59 +7,16 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Iniciando carga de datos iniciales (Seed ISO-COMPASS)...');
 
-  // 1. Crear usuarios por defecto con roles RBAC
-  console.log('Creando usuarios iniciales...');
-  // Password hash real para "Password123!" generado con bcryptjs
-  const samplePasswordHash = '$2a$10$rVlPBUtgbHPNnlJscdZWi.3WIRcjLmjfa5KxqhTnKHbRNTAKRQuGG';
-
-  const admin = await prisma.user.upsert({
-    where: { email: 'admin@espe.edu.ec' },
-    update: {
-      passwordHash: samplePasswordHash,
-      role: Role.ADMIN,
-    },
-    create: {
-      name: 'Juan Quimbiulco (Administrador GP)',
-      email: 'admin@espe.edu.ec',
-      passwordHash: samplePasswordHash,
-      role: Role.ADMIN,
-    },
-  });
-
-  const evaluator = await prisma.user.upsert({
-    where: { email: 'evaluador@espe.edu.ec' },
-    update: {
-      passwordHash: samplePasswordHash,
-      role: Role.EVALUATOR,
-    },
-    create: {
-      name: 'Ing. Evaluador Calidad',
-      email: 'evaluador@espe.edu.ec',
-      passwordHash: samplePasswordHash,
-      role: Role.EVALUATOR,
-    },
-  });
-
-  const consultant = await prisma.user.upsert({
-    where: { email: 'consultor@espe.edu.ec' },
-    update: {
-      passwordHash: samplePasswordHash,
-      role: Role.CONSULTANT,
-    },
-    create: {
-      name: 'Auditor Consultor',
-      email: 'consultor@espe.edu.ec',
-      passwordHash: samplePasswordHash,
-      role: Role.CONSULTANT,
-    },
-  });
-
-  console.log(`Usuarios creados: Admin (${admin.email}), Evaluador (${evaluator.email}), Consultor (${consultant.email})`);
-
   // 2. Cargar archivo JSON con las normas de la familia ISO/IEC 29110
   const dataPath = path.join(__dirname, 'seed-data', 'iso-29110-standards.json');
   const rawData = fs.readFileSync(dataPath, 'utf-8');
   const seedData = JSON.parse(rawData);
+  const selection = process.argv.slice(2).find((arg) => arg.startsWith('--standards='));
+  const codes = selection?.slice('--standards='.length).split(',');
+  if (codes?.some((code) => !seedData.standards.some((standard: { code: string }) => standard.code === code))) {
+    throw new Error('La selección contiene una norma que no está en el catálogo.');
+  }
+  if (!codes) await createSampleAccounts();
 
   // Crear o actualizar la Familia
   const family = await prisma.family.upsert({
@@ -78,78 +35,85 @@ async function main() {
 
   // Cargar cada Norma, sus Secciones y sus Items
   for (const std of seedData.standards) {
-    const standard = await prisma.standard.upsert({
-      where: { code: std.code },
-      update: {
-        title: std.title,
-        shortTitle: std.shortTitle,
-        edition: std.edition,
-        category: std.category as StandardCategory,
-        targetAudience: std.targetAudience,
-        purpose: std.purpose,
-        introduction: std.introduction,
-        officialUrl: std.officialUrl,
-        accessType: std.accessType as AccessType,
-      },
-      create: {
-        familyId: family.id,
-        code: std.code,
-        title: std.title,
-        shortTitle: std.shortTitle,
-        edition: std.edition,
-        category: std.category as StandardCategory,
-        targetAudience: std.targetAudience,
-        purpose: std.purpose,
-        introduction: std.introduction,
-        officialUrl: std.officialUrl,
-        accessType: std.accessType as AccessType,
-      },
-    });
-
-    for (const sec of std.sections) {
-      const section = await prisma.section.upsert({
-        where: {
-          standardId_code: {
-            standardId: standard.id,
-            code: sec.code,
-          },
-        },
+    if (codes && !codes.includes(std.code)) continue;
+    await prisma.$transaction(async (tx) => {
+      const standard = await tx.standard.upsert({
+        where: { code: std.code },
         update: {
-          name: sec.name,
-          orderIndex: sec.orderIndex,
+          title: std.title,
+          shortTitle: std.shortTitle,
+          edition: std.edition,
+          category: std.category as StandardCategory,
+          targetAudience: std.targetAudience,
+          purpose: std.purpose,
+          introduction: std.introduction,
+          officialUrl: std.officialUrl,
+          accessType: std.accessType as AccessType,
         },
         create: {
-          standardId: standard.id,
-          code: sec.code,
-          name: sec.name,
-          orderIndex: sec.orderIndex,
+          familyId: family.id,
+          code: std.code,
+          title: std.title,
+          shortTitle: std.shortTitle,
+          edition: std.edition,
+          category: std.category as StandardCategory,
+          targetAudience: std.targetAudience,
+          purpose: std.purpose,
+          introduction: std.introduction,
+          officialUrl: std.officialUrl,
+          accessType: std.accessType as AccessType,
         },
       });
 
-      for (const item of sec.items) {
-        await prisma.checklistItem.upsert({
+      for (const sec of std.sections) {
+        const section = await tx.section.upsert({
           where: {
-            sectionId_code: {
-              sectionId: section.id,
-              code: item.code,
+            standardId_code: {
+              standardId: standard.id,
+              code: sec.code,
             },
           },
           update: {
-            statement: item.statement,
-            expectedDeliverable: item.expectedDeliverable,
-            targetRole: item.targetRole,
+            name: sec.name,
+            orderIndex: sec.orderIndex,
           },
           create: {
-            sectionId: section.id,
-            code: item.code,
-            statement: item.statement,
-            expectedDeliverable: item.expectedDeliverable,
-            targetRole: item.targetRole,
+            standardId: standard.id,
+            code: sec.code,
+            name: sec.name,
+            orderIndex: sec.orderIndex,
           },
         });
+
+        for (const [orderIndex, item] of sec.items.entries()) {
+          await tx.checklistItem.upsert({
+            where: {
+              sectionId_code: {
+                sectionId: section.id,
+                code: item.code,
+              },
+            },
+            update: {
+              statement: item.statement,
+              expectedDeliverable: item.expectedDeliverable,
+              targetRole: item.targetRole,
+              orderIndex,
+            },
+            create: {
+              sectionId: section.id,
+              code: item.code,
+              statement: item.statement,
+              expectedDeliverable: item.expectedDeliverable,
+              targetRole: item.targetRole,
+              orderIndex,
+            },
+          });
+        }
       }
-    }
+    }, { timeout: 30000 });
   }
+
+  if (codes) return;
 
   // 3. Crear una Organización de ejemplo (VSE) requerida en los entregables
   const sampleOrg = await prisma.organization.upsert({
@@ -166,6 +130,48 @@ async function main() {
 
   console.log(`Organización de ejemplo registrada: ${sampleOrg.name}`);
   console.log('¡Carga de datos iniciales completada con éxito!');
+}
+
+async function createSampleAccounts() {
+  // 1. Crear usuarios por defecto con roles RBAC
+  console.log('Creando usuarios iniciales...');
+  // Password hash real para "Password123!" generado con bcryptjs
+  const samplePasswordHash = '$2a$10$rVlPBUtgbHPNnlJscdZWi.3WIRcjLmjfa5KxqhTnKHbRNTAKRQuGG';
+
+  const admin = await prisma.user.upsert({
+    where: { email: 'admin@espe.edu.ec' },
+    update: {},
+    create: {
+      name: 'Juan Quimbiulco (Administrador GP)',
+      email: 'admin@espe.edu.ec',
+      passwordHash: samplePasswordHash,
+      role: Role.ADMIN,
+    },
+  });
+
+  const evaluator = await prisma.user.upsert({
+    where: { email: 'evaluador@espe.edu.ec' },
+    update: {},
+    create: {
+      name: 'Ing. Evaluador Calidad',
+      email: 'evaluador@espe.edu.ec',
+      passwordHash: samplePasswordHash,
+      role: Role.EVALUATOR,
+    },
+  });
+
+  const consultant = await prisma.user.upsert({
+    where: { email: 'consultor@espe.edu.ec' },
+    update: {},
+    create: {
+      name: 'Auditor Consultor',
+      email: 'consultor@espe.edu.ec',
+      passwordHash: samplePasswordHash,
+      role: Role.CONSULTANT,
+    },
+  });
+
+  console.log(`Usuarios creados: Admin (${admin.email}), Evaluador (${evaluator.email}), Consultor (${consultant.email})`);
 }
 
 main()

@@ -42,8 +42,15 @@ export const FALLBACK_USERS: Array<SessionUser & { passwordHash: string; created
   },
 ];
 
+const DEVELOPMENT_SECRET = 'iso-compass-super-secret-key-development-2026';
+export const DEVELOPMENT_PASSWORD = 'Password123!';
+
 function getSecret(): string {
-  return process.env.AUTH_SECRET || 'iso-compass-super-secret-key-development-2026';
+  const secret = process.env.AUTH_SECRET;
+  if (process.env.NODE_ENV === 'production' && (!secret?.trim() || secret === DEVELOPMENT_SECRET)) {
+    throw new Error('Configura un AUTH_SECRET exclusivo para este entorno.');
+  }
+  return secret || DEVELOPMENT_SECRET;
 }
 
 export function createSessionToken(user: SessionUser): string {
@@ -63,7 +70,9 @@ export function verifySessionToken(token: string): SessionUser | null {
       .createHmac('sha256', getSecret())
       .update(payload)
       .digest('base64url');
-    if (signature !== expectedSig) return null;
+    const actual = Buffer.from(signature);
+    const expected = Buffer.from(expectedSig);
+    if (actual.length !== expected.length || !crypto.timingSafeEqual(actual, expected)) return null;
     const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString('utf-8'));
     if (!decoded || !decoded.email || !decoded.role) return null;
     return decoded as SessionUser;
@@ -73,20 +82,23 @@ export function verifySessionToken(token: string): SessionUser | null {
 }
 
 export class AuthService {
+  static getAuthenticatedSession(): SessionUser | null {
+    const token = cookies().get(SESSION_COOKIE_NAME)?.value;
+    return token ? verifySessionToken(token) : null;
+  }
+
   /**
-   * Obtiene el usuario autenticado de la sesión actual o el usuario Admin demostrativo por defecto
-   * para permitir navegación inmediata y pruebas rápidas de roles RBAC.
+   * Obtiene la sesión activa. La cuenta demostrativa solo se usa en desarrollo.
    */
   static getCurrentSession(): SessionUser {
     try {
-      const cookieStore = cookies();
-      const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
-      if (token) {
-        const verified = verifySessionToken(token);
-        if (verified) return verified;
-      }
+      const verified = this.getAuthenticatedSession();
+      if (verified) return verified;
     } catch {
       // En pre-renderizado estático cookies() puede no estar disponible
+    }
+    if (process.env.NODE_ENV === 'production') {
+      return { id: 'guest', name: 'Sin sesión', email: '', role: 'CONSULTANT' };
     }
     return {
       id: FALLBACK_USERS[0].id,
@@ -101,6 +113,7 @@ export class AuthService {
    * (con fallback seguro a usuarios semilla si no hay conexión).
    */
   static async authenticateUser(email: string, passwordPlain: string): Promise<SessionUser | null> {
+    if (process.env.NODE_ENV === 'production' && passwordPlain === DEVELOPMENT_PASSWORD) return null;
     const cleanEmail = email.trim().toLowerCase();
     const prisma = getPrismaClient();
 
@@ -110,9 +123,7 @@ export class AuthService {
           where: { email: cleanEmail },
         });
         if (dbUser) {
-          const isValid =
-            verifyPassword(passwordPlain, dbUser.passwordHash) ||
-            passwordPlain === 'Password123!';
+          const isValid = verifyPassword(passwordPlain, dbUser.passwordHash);
           if (isValid) {
             return {
               id: dbUser.id,
@@ -128,6 +139,7 @@ export class AuthService {
       }
     }
 
+    if (process.env.NODE_ENV === 'production') return null;
     const fallback = FALLBACK_USERS.find((u) => u.email.toLowerCase() === cleanEmail);
     if (fallback && verifyPassword(passwordPlain, fallback.passwordHash)) {
       return {

@@ -40,12 +40,12 @@ export default async function StandardDetailPage({ params }: StandardDetailPageP
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 shadow-sm space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-lg font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-md">
+            <span className="font-mono text-lg font-bold text-brand-600 bg-brand-50 px-3 py-1 rounded-md">
               {standard.code}
             </span>
             <Badge variant="outline">Edición {standard.edition}</Badge>
             <Badge variant={standard.accessType === 'FREE' ? 'success' : 'secondary'}>
-              {standard.accessType === 'FREE' ? 'Documento Libre' : 'Catálogo de Pago ISO'}
+              {standard.accessType === 'FREE' ? 'Documento Libre' : 'Catálogo ISO'}
             </Badge>
           </div>
 
@@ -102,10 +102,11 @@ export default async function StandardDetailPage({ params }: StandardDetailPageP
           <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
             Apartados y Lista de Verificación Base
           </h2>
-          <Link href="/evaluaciones">
-            <Button variant="default" size="sm">
-              <CheckSquare className="mr-2 h-4 w-4" /> Evaluar Esta Norma
-            </Button>
+          <Link
+            href={`/evaluaciones?norma=${encodeURIComponent(standard.code)}#checklist`}
+            className="inline-flex items-center rounded-md bg-brand-600 px-3 py-2 text-xs font-medium text-white hover:bg-brand-700"
+          >
+            <CheckSquare className="mr-2 h-4 w-4" /> Evaluar esta norma
           </Link>
         </div>
 
@@ -114,7 +115,7 @@ export default async function StandardDetailPage({ params }: StandardDetailPageP
             <CardHeader className="py-4">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">
-                  <span className="font-mono text-blue-600 mr-2">{section.code}:</span>
+                  <span className="font-mono text-brand-600 mr-2">{section.code}:</span>
                   {section.name}
                 </CardTitle>
                 <Badge variant="outline">{section.items.length} ítems</Badge>

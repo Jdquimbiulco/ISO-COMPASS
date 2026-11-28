@@ -1,59 +1,115 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { CheckSquare, Plus, ArrowRight, Building2 } from 'lucide-react';
 import Link from 'next/link';
+import { ChecklistItem } from '@/components/evaluations/checklist-item';
+import { EvaluationForm } from '@/components/evaluations/evaluation-form';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { AuthService } from '@/services/auth.service';
+import { EvaluationData, getEvaluationUser } from '@/services/evaluation.service';
 
-export default function EvaluacionesPage() {
+export const dynamic = 'force-dynamic';
+
+const dateFormat = new Intl.DateTimeFormat('es-EC', { dateStyle: 'medium', timeZone: 'America/Guayaquil' });
+
+export default async function EvaluacionesPage({ searchParams }: {
+  searchParams: { norma?: string; evaluacion?: string };
+}) {
+  const heading = <h1 className="text-2xl font-bold">Listas de verificación y evaluaciones</h1>;
+  const user = await getEvaluationUser();
+  if (!user) {
+    return (
+      <div className="space-y-3">
+        {heading}
+        <p><Link className="text-brand-700 underline dark:text-brand-300" href="/login">Inicia sesión</Link> para consultar o crear evaluaciones.</p>
+      </div>
+    );
+  }
+
+  const canEdit = AuthService.getPermissions(user.role).canEditEvaluations;
+  const evaluations = await EvaluationData.list(user, searchParams.norma);
+  const selected = searchParams.evaluacion ?? evaluations[0]?.id;
+  const [evaluation, options] = await Promise.all([
+    selected ? EvaluationData.get(user, selected) : undefined,
+    canEdit ? EvaluationData.getOptions() : undefined,
+  ]);
+  const responseByItem = new Map(evaluation?.responses.map((response) => [response.itemId, response]));
+
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
-            M4. Listas de Verificación y Evaluaciones
-          </h1>
-          <p className="text-sm text-gray-500">
-            Registra y califica el cumplimiento de cada apartado por organización evaluada.
-          </p>
-        </div>
-
-        <Button variant="default" size="sm">
-          <Plus className="mr-2 h-4 w-4" /> Nueva Evaluación
-        </Button>
+    <div className="mx-auto max-w-6xl space-y-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        {heading}
+        {searchParams.norma && (
+          <Link href="/evaluaciones" className="text-sm text-brand-700 underline dark:text-brand-300">Ver todas las evaluaciones</Link>
+        )}
       </div>
 
-      {/* Evaluación Activa Demostrativa */}
-      <Card className="border-l-4 border-l-blue-600">
-        <CardHeader>
-          <div className="flex justify-between items-start">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Building2 className="h-4 w-4 text-blue-600" />
-                <CardTitle className="text-lg">AndesTech Solutions (VSE Piloto)</CardTitle>
-              </div>
-              <CardDescription>
-                Equipo: 6 desarrolladores | Perfil Objetivo: Perfil Básico (29110-5-1-2)
-              </CardDescription>
-            </div>
-            <Badge variant="warning">En progreso (79.2%)</Badge>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-sm text-gray-600 dark:text-gray-300">
-            Evaluación integral de los procesos de <strong>Gestión del Proyecto (GP)</strong> e{' '}
-            <strong>Implementación de Software (IS)</strong>.
-          </p>
-
-          <div className="flex justify-between items-center pt-2">
-            <span className="text-xs text-gray-500 font-mono">Última actualización: Noviembre 2026</span>
-            <Link href="/tablero">
-              <Button variant="default" size="sm">
-                Continuar Evaluación <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+      {evaluations.length > 0 && (
+        <nav aria-label="Evaluaciones" className="flex flex-wrap gap-2">
+          {evaluations.map(({ id, standard, organization, evaluationDate }) => (
+            <Link
+              key={id}
+              href={`/evaluaciones?norma=${encodeURIComponent(standard.code)}&evaluacion=${encodeURIComponent(id)}#checklist`}
+              aria-current={id === evaluation?.id ? 'page' : undefined}
+              className="rounded border px-3 py-2 text-sm aria-[current=page]:border-brand-600 aria-[current=page]:bg-brand-50 dark:aria-[current=page]:bg-brand-950"
+            >
+              {organization.name} · {standard.shortTitle} · {dateFormat.format(evaluationDate)}
             </Link>
+          ))}
+        </nav>
+      )}
+
+      {options && (
+        <Card>
+          <CardContent className="pt-5">
+            <details open={!evaluation}>
+              <summary className="cursor-pointer text-sm font-semibold">Nueva evaluación</summary>
+              <div className="mt-4">
+                {options.standards.length ? (
+                  <EvaluationForm key={searchParams.norma} {...options} standardCode={searchParams.norma} />
+                ) : (
+                  <p className="text-sm">El catálogo de evaluación aún no contiene normas.</p>
+                )}
+              </div>
+            </details>
+          </CardContent>
+        </Card>
+      )}
+
+      {!evaluation && !canEdit && <p className="text-sm">Todavía no hay evaluaciones disponibles.</p>}
+      {evaluation && (
+        <section id="checklist" className="space-y-4 scroll-mt-20">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h2 className="text-xl font-semibold">{evaluation.standard.shortTitle}</h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {evaluation.organization.name} · {evaluation.organization.teamSize} personas · {evaluation.organization.targetProfile}
+              </p>
+            </div>
+            <Link href={`/tablero?evaluacion=${encodeURIComponent(evaluation.id)}`} className="rounded border px-3 py-2 text-sm font-medium">Ver tablero</Link>
           </div>
-        </CardContent>
-      </Card>
+          {evaluation.standard.sections.map((section) => (
+            <Card key={section.id}>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">{section.code} · {section.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="divide-y dark:divide-gray-800">
+                  {section.items.map((item) => {
+                    const response = responseByItem.get(item.id);
+                    return (
+                      <ChecklistItem
+                        key={`${evaluation.id}-${item.id}`}
+                        evaluationId={evaluation.id}
+                        item={item}
+                        canEdit={canEdit}
+                        response={response ? { ...response, dateLabel: dateFormat.format(response.evaluationDate) } : undefined}
+                      />
+                    );
+                  })}
+                </ul>
+              </CardContent>
+            </Card>
+          ))}
+        </section>
+      )}
     </div>
   );
 }

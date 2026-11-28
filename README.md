@@ -49,7 +49,7 @@ El sistema permite:
 3. **DERECHOS DE AUTOR Y ENLACES (COPYRIGHT ISO):**
    * **PROHIBIDO:** Subir, almacenar, piratear o redistribuir PDFs de normas de pago de ISO en este repositorio o en el servidor.
    * **OBLIGATORIO:** Si una norma es de pago (ej. 29110-1-2, 29110-4-1, 29110-5-4), el botón debe dirigir a la ficha oficial de compra en el catálogo ISO (`https://www.iso.org/standard/...`).
-   * Solo si el documento es oficialmente público (*ISO Publicly Available Standards*, como la 29110-1-1:2024 o las guías 5-1-1 y 5-1-2), se permite el enlace directo al documento.
+   * Solo si el documento es oficialmente público (según el catálogo oficial vigente), se permite el enlace directo al documento.
 
 4. **ARQUITECTURA POR CAPAS (RNF-05 y Sección 4.8):**
    * Mantener siempre la separación en 3 capas:
@@ -72,7 +72,7 @@ Para garantizar la cobertura completa de los 7 módulos del software y el cumpli
 | :--- | :--- | :--- | :--- |
 | **Juan Quimbiulco** | **Gestor de Proyecto (GP)** & **Programador (PR)** (Backend / Supabase) | • Configurar proyecto en Supabase y variables `.env`.<br>• Ejecutar `npx prisma db push` y verificar conexiones.<br>• Implementar autenticación básica y roles RBAC (Admin, Evaluador, Consultor).<br>• Módulo M7 (Administración de usuarios y familias). | • **Enunciado del Trabajo** revisado y acordado.<br>• **Plan del Proyecto** (estimaciones, calendario, recursos, riesgos).<br>• **Actas de Reunión** periódicas (minutas).<br>• **Registro de Solicitudes de Cambio**.<br>• **Acta de Aceptación** formal del cliente. |
 | **Martín Cordero** | **Líder Técnico (LT)** (Frontend Biblioteca M1, M2, M3) | • M1: Implementar buscador por palabra clave en la biblioteca.<br>• M1: Construir el **mapa visual interactivo** de la familia de normas (diagrama interactivo).<br>• M2 & M3: Pulir la ficha técnica y verificar los botones oficiales de descarga/consulta y avisos de copyright. | • **Documento de Arquitectura de Software** (diagrama de las 3 capas).<br>• **Matriz de Trazabilidad Técnica** (requisitos vs código).<br>• **Manual Técnico de Instalación** y configuración (RNF-06). |
-| **Stiven Díaz** | **Programador (PR)** (Checklists y Tablero M4, M5) | • M4: Conectar eventos interactivos del checklist (marcar C, P, NC, NA y guardar en tiempo real).<br>• M4: Interfaz para adjuntar evidencias (archivo o enlace externo).<br>• M5: Incrustar gráficos interactivos con `recharts` (gráfico de dona y comparativa GP vs IS). | • Componentes UI modulares (Tailwind + Shadcn).<br>• **Guía / Manual de Usuario** paso a paso con capturas de pantalla del sistema.<br>• Verificación de usabilidad (< 3 clics desde ficha RNF-01). |
+| **Stiven Díaz** | **Programador (PR)** (Checklists y Tablero M4, M5) | • M4: Conectar eventos interactivos del checklist (marcar C, P, NC, NA y guardar en tiempo real).<br>• M4: Interfaz para adjuntar evidencias (archivo o enlace externo).<br>• M5: Incrustar gráficos interactivos con `recharts` (gráfico de dona y comparativa GP vs IS). | • Componentes UI modulares (Tailwind + Shadcn).<br>• **[Manual de usuario](1.%20Documentaci%C3%B3n/06_Manual_de_Usuario_ISO_COMPASS.pdf)** con capturas del sistema.<br>• Verificación de usabilidad (< 3 clics desde ficha RNF-01). |
 | **Alex Cuzco** | **Analista y Diseñador (AN / DIS)** (QA, Cálculo, Datos y Reportes M6) | • M6: Implementar descarga de reporte formal en **PDF** con membrete ESPE.<br>• M6: Exportación de matriz de brechas a Excel/CSV.<br>• Realizar la evaluación completa demostrativa de la VSE ejemplo (*AndesTech Solutions*).<br>• Ejecución y mantenimiento de pruebas automatizadas. | • **Especificación de Requisitos de Software (SRS)** validada.<br>• **Informe Formal de Pruebas Automatizadas** (resultados de tests unitarios y de integración).<br>• Diapositivas para la presentación y demostración en vivo (10 min). |
 
 ---
@@ -88,8 +88,18 @@ Para garantizar la cobertura completa de los 7 módulos del software y el cumpli
 | :--- | :--- | :--- | :--- |
 | **Juan Quimbiulco** | GP / PR | **1. 29110-1-1:2024** (Visión general)<br>**2. 29110-3-1:2020** (Guía de evaluación)<br>**3. 29110-3-2:2018 + Amd 1:2025** (Certificación) | • Verificar conceptos de VSE (≤ 25 personas).<br>• Explicar proceso de evaluación ligera para consultores.<br>• **Clave:** Destacar la enmienda 2025 que elimina la recertificación obligatoria cada 3 años. |
 | **Martín Cordero** | LT | **4. 29110-1-2:2024** (Vocabulario)<br>**5. 29110-2-1:2015** (Marco y taxonomía)<br>**6. 29110-5-1-4:2018** (Perfil Avanzado) | • Validar glosario común (V&V, producto de trabajo, roles).<br>• Explicar la taxonomía para derivar perfiles desde ISO 12207.<br>• Detallar prácticas de sostenibilidad, innovación y mejora continua del Perfil Avanzado. |
-| **Stiven Díaz** | PR | **7. 29110-5-1-1:2012** (Perfil de Entrada)<br>**8. 29110-5-1-2:2011** (Perfil Básico - GP e IS)<br>**9. 29110-5-4:2025** (Desarrollo Ágil) | • Verificar prácticas de inicio para microempresas (1-5 personas).<br>• **El núcleo:** Validar todas las tareas y productos esperados de GP (GP.1 a GP.7) e IS (IS.1 a IS.6).<br>• Describir cómo se integran eventos ágiles (Sprints, Demos) con el Perfil Básico. |
+| **Stiven Díaz** | PR | **7. 29110-5-1-1:2012** (Perfil de Entrada)<br>**8. 29110-5-1-2:2011** (Perfil Básico - GP e IS)<br>**9. 29110-5-4:2025** (Desarrollo Ágil) | • Verificar prácticas de inicio para microempresas (1-5 personas).<br>• **El núcleo:** Validar las 67 tareas de GP (GP.1 a GP.4) e IS (IS.1 a IS.6). GP.O1 a GP.O7 identifican objetivos del proceso.<br>• Describir cómo se integran eventos ágiles (Sprints, Demos) con el Perfil Básico. |
 | **Alex Cuzco** | AN / DIS | **10. 29110-4-1:2018** (Especificaciones de perfiles)<br>**11. 29110-5-1-3:2017** (Perfil Intermedio)<br>**12. 29110-5-3:2018** (Servicios de TI)<br>**13. 29110-5-6-1/2** (Ingeniería de Sistemas) | • Verificar requisitos normativos ("qué hacer") de los perfiles.<br>• Detallar gestión multiproyecto y aseguramiento de calidad del Perfil Intermedio.<br>• Revisar gestión de SLAs para soporte y servicios de TI.<br>• Validar interfaces ciberfísicas hardware/software para IoT/sistemas embebidos. |
+
+Fuentes de las fichas revisadas
+
+- ISO/IEC. (2011). *Guía del Perfil Básico* (ISO/IEC TR 29110-5-1-2:2011). https://www.iso.org/standard/51153.html
+- ISO/IEC. (2012). *Guía del Perfil de Entrada* (ISO/IEC TR 29110-5-1-1:2012). https://www.iso.org/standard/60389.html
+- ISO/IEC. (2025a). *Guía de ingeniería de software del Perfil de Entrada* (ISO/IEC 29110-5-1-1:2025). https://www.iso.org/standard/85420.html
+- ISO/IEC. (2025b). *Guía de ingeniería de software del Perfil Básico* (ISO/IEC 29110-5-1-2:2025). https://www.iso.org/standard/82669.html
+- ISO/IEC. (2025c). *Guía de desarrollo ágil de software* (ISO/IEC 29110-5-4:2025). https://www.iso.org/standard/82668.html
+
+Las ediciones 2012 y 2011 se registran por la consigna de la ESPE. El catálogo ISO identifica sus reemplazos de 2025. En el Perfil Básico, las tablas 6 a 9 y 15 a 20 del informe de 2011 sirven de referencia para los ítems y sus evidencias.
 
 ---
 
@@ -178,6 +188,16 @@ Esta guía es universal para cualquier sistema operativo (**Windows, macOS o Lin
    npx prisma db push
    npm run db:seed
    ```
+
+   El responsable de la base compartida puede sincronizar solo las tres normas revisadas con este comando.
+
+   ~~~bash
+   npm run db:seed -- --standards=29110-5-1-1,29110-5-1-2,29110-5-4
+   ~~~
+
+   Las evaluaciones previas que tienen respuestas en el checklist resumido conservan esa versión. Las evaluaciones nuevas usan el checklist de 67 tareas.
+
+   Antes de publicar, el responsable del entorno debe sincronizar el catálogo en la base de destino, configurar un secreto de sesión exclusivo en AUTH_SECRET y habilitar cuentas con contraseñas propias. Las cuentas de demostración requieren credenciales nuevas si se usarán en el despliegue.
 
 6. **Ejecutar las pruebas unitarias automatizadas:**
    ```bash

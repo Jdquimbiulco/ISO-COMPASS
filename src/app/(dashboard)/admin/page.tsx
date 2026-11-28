@@ -464,7 +464,7 @@ export default function AdminPage() {
       </div>
 
       {/* Pestañas de Navegación Interna M7 */}
-      <div className="flex border-b border-gray-200 dark:border-gray-800 gap-2">
+      <div className="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-800">
         <button
           onClick={() => setActiveTab('users')}
           className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors flex items-center gap-2 ${
