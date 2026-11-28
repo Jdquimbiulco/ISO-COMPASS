@@ -10,6 +10,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        brand: {
+          50: '#fff2f5',
+          100: '#f9e2e9',
+          200: '#f3cad7',
+          300: '#e99eb6',
+          400: '#de7a9a',
+          500: '#c83d65',
+          600: '#a7183d',
+          700: '#8d1434',
+          800: '#74102c',
+          900: '#591027',
+          950: '#420d21',
+        },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

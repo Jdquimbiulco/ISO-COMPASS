@@ -73,7 +73,7 @@ export default function LoginPage() {
         {/* Columna Izquierda: Información de Seguridad RNF-03 */}
         <div className="space-y-5">
           <Link href="/" className="inline-flex items-center gap-2.5">
-            <div className="h-10 w-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-sm">
+            <div className="h-10 w-10 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-sm">
               <ShieldCheck className="h-6 w-6" />
             </div>
             <div>
@@ -85,7 +85,7 @@ export default function LoginPage() {
           </Link>
 
           <div className="space-y-2">
-            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+            <Badge variant="outline" className="bg-brand-50 text-brand-700 border-brand-200">
               Seguridad RNF-03 & Módulo M7 (RBAC)
             </Badge>
             <h2 className="text-2xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
@@ -108,13 +108,13 @@ export default function LoginPage() {
                 onClick={() => selectDemoAccount(acc.email)}
                 className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between ${
                   email === acc.email
-                    ? 'border-blue-600 bg-blue-50/70 dark:bg-blue-950/40 shadow-xs'
-                    : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-blue-300'
+                    ? 'border-brand-600 bg-brand-50/70 dark:bg-brand-950/40 shadow-xs'
+                    : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-brand-300'
                 }`}
               >
                 <div>
                   <p className="text-xs font-bold text-gray-900 dark:text-gray-100">{acc.name}</p>
-                  <p className="text-[11px] font-mono text-blue-600 dark:text-blue-400">{acc.email}</p>
+                  <p className="text-[11px] font-mono text-brand-600 dark:text-brand-400">{acc.email}</p>
                   <p className="text-[11px] text-gray-500 mt-0.5">{acc.badge}</p>
                 </div>
                 <Badge
@@ -136,7 +136,7 @@ export default function LoginPage() {
         {/* Columna Derecha: Formulario de Inicio de Sesión */}
         <Card className="shadow-lg border-gray-200 dark:border-gray-800">
           <CardHeader>
-            <div className="flex items-center gap-2 text-blue-600 mb-1">
+            <div className="flex items-center gap-2 text-brand-600 mb-1">
               <Lock className="h-4 w-4" />
               <span className="text-xs font-semibold uppercase tracking-wider">Acceso Institucional</span>
             </div>
@@ -164,7 +164,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@espe.edu.ec"
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
 
@@ -178,7 +178,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
                 <p className="text-[11px] text-gray-500">
                   Contraseña por defecto de las cuentas semilla: <code className="font-mono font-semibold">Password123!</code>
@@ -194,7 +194,7 @@ export default function LoginPage() {
                 <span className="flex items-center gap-1 text-emerald-600 font-medium">
                   <CheckCircle2 className="h-3.5 w-3.5" /> Hash Bcrypt Activo
                 </span>
-                <Link href="/" className="hover:underline text-blue-600">
+                <Link href="/" className="hover:underline text-brand-600">
                   Volver al Dashboard →
                 </Link>
               </div>

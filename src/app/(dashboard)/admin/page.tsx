@@ -326,7 +326,7 @@ export default function AdminPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+            <Badge variant="outline" className="bg-brand-50 text-brand-700 border-brand-200">
               RF-15 & RNF-03 • Responsable: Juan Quimbiulco (GP / Backend)
             </Badge>
             <Badge variant={dataSource === 'SUPABASE_POSTGRES' ? 'success' : 'secondary'}>
@@ -344,7 +344,7 @@ export default function AdminPage() {
 
         <Link href="/login">
           <Button variant="outline" size="sm" className="gap-1.5">
-            <Lock className="h-3.5 w-3.5 text-blue-600" />
+            <Lock className="h-3.5 w-3.5 text-brand-600" />
             Probar Login Cifrado
           </Button>
         </Link>
@@ -389,7 +389,7 @@ export default function AdminPage() {
         <div
           className={`p-3.5 rounded-xl border text-xs font-medium flex items-center justify-between ${
             feedback.type === 'success'
-              ? 'bg-blue-50 border-blue-200 text-blue-800'
+              ? 'bg-brand-50 border-brand-200 text-brand-800'
               : 'bg-red-50 border-red-200 text-red-800'
           }`}
         >
@@ -405,13 +405,13 @@ export default function AdminPage() {
         <Card
           onClick={() => setActiveTab('users')}
           className={`cursor-pointer transition-all ${
-            activeTab === 'users' ? 'ring-2 ring-blue-600 border-blue-600' : 'hover:border-blue-300'
+            activeTab === 'users' ? 'ring-2 ring-brand-600 border-brand-600' : 'hover:border-brand-300'
           }`}
         >
           <CardHeader className="pb-2">
             <div className="flex justify-between items-center">
               <CardDescription className="text-xs font-semibold">1. Usuarios y Roles RBAC</CardDescription>
-              <Users className="h-4 w-4 text-blue-600" />
+              <Users className="h-4 w-4 text-brand-600" />
             </div>
             <CardTitle className="text-2xl font-bold">{users.length} Usuarios</CardTitle>
           </CardHeader>
@@ -423,7 +423,7 @@ export default function AdminPage() {
         <Card
           onClick={() => setActiveTab('families')}
           className={`cursor-pointer transition-all ${
-            activeTab === 'families' ? 'ring-2 ring-blue-600 border-blue-600' : 'hover:border-blue-300'
+            activeTab === 'families' ? 'ring-2 ring-brand-600 border-brand-600' : 'hover:border-brand-300'
           }`}
         >
           <CardHeader className="pb-2">
@@ -447,7 +447,7 @@ export default function AdminPage() {
         <Card
           onClick={() => setActiveTab('standards')}
           className={`cursor-pointer transition-all ${
-            activeTab === 'standards' ? 'ring-2 ring-blue-600 border-blue-600' : 'hover:border-blue-300'
+            activeTab === 'standards' ? 'ring-2 ring-brand-600 border-brand-600' : 'hover:border-brand-300'
           }`}
         >
           <CardHeader className="pb-2">
@@ -469,7 +469,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('users')}
           className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors flex items-center gap-2 ${
             activeTab === 'users'
-              ? 'border-blue-600 text-blue-600'
+              ? 'border-brand-600 text-brand-600'
               : 'border-transparent text-gray-500 hover:text-gray-800'
           }`}
         >
@@ -479,7 +479,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('families')}
           className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors flex items-center gap-2 ${
             activeTab === 'families'
-              ? 'border-blue-600 text-blue-600'
+              ? 'border-brand-600 text-brand-600'
               : 'border-transparent text-gray-500 hover:text-gray-800'
           }`}
         >
@@ -489,7 +489,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('standards')}
           className={`px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors flex items-center gap-2 ${
             activeTab === 'standards'
-              ? 'border-blue-600 text-blue-600'
+              ? 'border-brand-600 text-brand-600'
               : 'border-transparent text-gray-500 hover:text-gray-800'
           }`}
         >
@@ -527,9 +527,9 @@ export default function AdminPage() {
               {showUserForm && isAdmin && (
                 <form
                   onSubmit={handleCreateUser}
-                  className="p-4 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 space-y-4"
+                  className="p-4 rounded-xl bg-brand-50/50 dark:bg-brand-950/20 border border-brand-200 dark:border-brand-900 space-y-4"
                 >
-                  <h3 className="text-sm font-bold text-blue-900 dark:text-blue-200">
+                  <h3 className="text-sm font-bold text-brand-900 dark:text-brand-200">
                     Nuevo Usuario con Contraseña Cifrada (Bcrypt)
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -1025,7 +1025,7 @@ export default function AdminPage() {
 
                 {/* Apartado e ítem inicial opcional */}
                 <div className="p-3 rounded-lg bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 space-y-3">
-                  <p className="text-xs font-bold text-blue-700 dark:text-blue-400">
+                  <p className="text-xs font-bold text-brand-700 dark:text-brand-400">
                     Apartado e Ítem de Lista de Verificación (Opcional al crear/actualizar)
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -1100,7 +1100,7 @@ export default function AdminPage() {
                       <td className="py-2.5 px-3 font-mono text-[11px] text-gray-500">
                         {std.familyCode || 'ISO-29110'}
                       </td>
-                      <td className="py-2.5 px-3 font-mono font-bold text-blue-600">{std.code}</td>
+                      <td className="py-2.5 px-3 font-mono font-bold text-brand-600">{std.code}</td>
                       <td className="py-2.5 px-3 font-medium text-gray-900 dark:text-gray-100">
                         {std.shortTitle}
                       </td>

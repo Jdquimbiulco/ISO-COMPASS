@@ -2,63 +2,63 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen, CheckSquare, BarChart3, FileSpreadsheet, Settings, ShieldCheck, Home } from 'lucide-react';
+import { BookOpen, CheckSquare, BarChart3, FileSpreadsheet, Settings, Compass, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navigation = [
   { name: 'Inicio', href: '/', icon: Home },
-  { name: 'M1. Biblioteca Digital', href: '/biblioteca', icon: BookOpen },
-  { name: 'M4. Evaluaciones & Checklists', href: '/evaluaciones', icon: CheckSquare },
-  { name: 'M5. Tablero de Estado', href: '/tablero', icon: BarChart3 },
-  { name: 'M6. Reportes & Exportación', href: '/reportes', icon: FileSpreadsheet },
-  { name: 'M7. Administración', href: '/admin', icon: Settings },
+  { name: 'Biblioteca', href: '/biblioteca', icon: BookOpen },
+  { name: 'Evaluaciones', href: '/evaluaciones', icon: CheckSquare },
+  { name: 'Tablero', href: '/tablero', icon: BarChart3 },
+  { name: 'Reportes', href: '/reportes', icon: FileSpreadsheet },
+  { name: 'Administración', href: '/admin', icon: Settings },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex flex-col h-screen sticky top-0">
-      <div className="h-16 flex items-center px-6 border-b border-gray-200 dark:border-gray-800 gap-3">
-        <ShieldCheck className="h-7 w-7 text-blue-600" />
-        <div>
-          <h1 className="font-bold text-base leading-tight tracking-tight text-gray-900 dark:text-gray-100">
-            ISO-COMPASS
-          </h1>
-          <p className="text-xs text-gray-500 font-medium">Guía ISO/IEC 29110</p>
-        </div>
-      </div>
+    <aside className="flex shrink-0 flex-col border-b border-brand-100 bg-white dark:border-gray-800 dark:bg-gray-950 lg:sticky lg:top-0 lg:h-dvh lg:w-60 lg:border-b-0 lg:border-r">
+      <Link
+        href="/"
+        className="flex min-h-16 items-center gap-3 px-4 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-600 lg:px-5"
+      >
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[0.7rem] bg-brand-700 text-white">
+          <Compass className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <span>
+          <span className="block text-sm font-extrabold tracking-tight text-gray-950 dark:text-gray-50">ISO-COMPASS</span>
+          <span className="block text-xs font-medium text-gray-600 dark:text-gray-400">Guía ISO/IEC 29110</span>
+        </span>
+      </Link>
 
-      <nav className="flex-1 px-4 py-4 space-y-1.5 overflow-y-auto">
-        <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider px-3 mb-2">
-          Módulos del Sistema
-        </div>
-        {navigation.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
-          const Icon = item.icon;
+      <nav aria-label="Módulos" className="flex gap-1.5 overflow-x-auto px-3 pb-3 lg:flex-1 lg:flex-col lg:overflow-y-auto lg:px-4 lg:pt-5">
+        {navigation.map(({ name, href, icon: Icon }) => {
+          const isActive = pathname === href ||
+            (href !== '/' && pathname.startsWith(href + '/')) ||
+            (href === '/biblioteca' && pathname.startsWith('/normas/'));
+
           return (
             <Link
-              key={item.name}
-              href={item.href}
+              key={href}
+              href={href}
+              aria-current={isActive ? 'page' : undefined}
               className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all',
+                'flex min-h-11 shrink-0 items-center gap-2.5 whitespace-nowrap rounded-lg px-3 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-600',
                 isActive
-                  ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-semibold shadow-xs'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-900 dark:hover:text-gray-100'
+                  ? 'bg-brand-50 font-semibold text-brand-800 dark:bg-brand-950 dark:text-brand-200'
+                  : 'text-gray-700 hover:bg-brand-50 hover:text-brand-800 dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:text-brand-200'
               )}
             >
-              <Icon className={cn('h-4 w-4', isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400')} />
-              <span>{item.name}</span>
+              <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+              {name}
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-        <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded-lg border border-gray-200 dark:border-gray-800">
-          <p className="text-xs font-semibold text-gray-700 dark:text-gray-300">ESPE - Aseguramiento</p>
-          <p className="text-[11px] text-gray-500">Parcial 2 | Perfil Básico VSE</p>
-        </div>
+      <div className="hidden border-t border-brand-100 px-5 py-4 text-xs font-medium text-gray-600 dark:border-gray-800 dark:text-gray-400 lg:block">
+        ESPE · Aseguramiento de la Calidad
       </div>
     </aside>
   );

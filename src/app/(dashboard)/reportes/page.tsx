@@ -42,7 +42,7 @@ export default function ReportesPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="hover:border-blue-300 transition-colors">
+        <Card className="hover:border-brand-300 transition-colors">
           <CardHeader>
             <div className="h-10 w-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center mb-2">
               <FileText className="h-5 w-5" />
